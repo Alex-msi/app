@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/my_nav"
+    app:startDestination="@id/listaWatchFragment">
+
+    <fragment
+        android:id="@+id/listaWatchFragment"
+        android:name="com.example.watchlist.ui.ListaWatchFragment"
+        android:label="Filmes"
+        tools:layout="@layout/fragment_lista_watch">
+        <action
+            android:id="@+id/action_listaWatchFragment_to_cadastroFragment"
+            app:destination="@id/cadastroFragment" />
+        <action
+            android:id="@+id/action_listaWatchFragment_to_detalheFragment"
+            app:destination="@id/detalheFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/cadastroFragment"
+        android:name="com.example.watchlist.ui.CadastroFragment"
+        android:label="Novo Filme"
+        tools:layout="@layout/fragment_cadastro" />
+    <fragment
+        android:id="@+id/detalheFragment"
+        android:name="com.example.watchlist.ui.DetalheFragment"
+        android:label="Detalhes"
+        tools:layout="@layout/fragment_detalhe" />
+</navigation>

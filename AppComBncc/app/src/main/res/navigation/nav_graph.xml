@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.appcombncc.ui.fragment.HomeFragment"
+        android:label="Home" >
+        <fragment
+            android:id="@+id/serieFragment"
+            android:name="com.example.appcombncc.ui.fragment.SerieFragment"
+            android:label="Séries">
+
+            <action
+                android:id="@+id/action_serieFragment_to_eixoCompetenciaFragment"
+                app:destination="@id/eixoCompetenciaFragment" />
+        </fragment>
+
+        <fragment
+            android:id="@+id/eixoCompetenciaFragment"
+            android:name="com.example.appcombncc.ui.fragment.EixoCompetenciaFragment"
+            android:label="Eixos/Competências">
+
+            <action
+                android:id="@+id/action_eixoCompetenciaFragment_to_habilidadesFragment"
+                app:destination="@id/habilidadesFragment" />
+        </fragment>
+
+        <fragment
+            android:id="@+id/habilidadesFragment"
+            android:name="com.example.appcombncc.ui.fragment.HabilidadesFragment"
+            android:label="Habilidades" />
+
+    </fragment>
+
+
+
+
+</navigation>

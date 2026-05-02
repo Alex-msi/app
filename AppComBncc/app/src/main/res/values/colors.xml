@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="etapa_ei">#2E7D32</color>
+    <color name="etapa_ef">#1976D2</color>
+    <color name="etapa_em">#FBC02D</color>
+
+    <color name="bg_white">#FFFFFF</color>
+    <color name="text_secondary_gray">#9E9E9E</color>
+    <color name="card_gray_light">#F5F5F5</color>
+</resources>

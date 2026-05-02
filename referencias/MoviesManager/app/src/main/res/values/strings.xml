@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">MoviesManager</string>
+    <string name="title">Title:</string>
+    <string name="year">Year:</string>
+    <string name="studio">Studio:</string>
+    <string name="duration">Duration:</string>
+    <string name="watched">Watched:</string>
+    <string name="rating">Rating:</string>
+    <string name="genre">Genre:</string>
+    <string name="salvar">Salvar</string>
+    <string name="excluir">Excluir</string>
+    <string name="pesquisar">Pesquisar</string>
+    <string name="empty_list">Lista de filmes vazia</string>
+    <string name="descricao">Descrição</string>
+    <string name="titulo_do_filme">Titulo do filme</string>
+    <string name="por_titulo">Por Título</string>
+    <string name="por_avaliacao">Por Avaliação</string>
+    <string name="minutos">Min</string>
+    <string-array name="genre_options">
+        <item>Ação</item>
+        <item>Aventura</item>
+        <item>Animação</item>
+        <item>Comédia</item>
+        <item>Drama</item>
+        <item>Fantasia</item>
+        <item>Ficção Científica</item>
+        <item>Horror</item>
+        <item>Mistério</item>
+        <item>Romance</item>
+        <item>Thriller</item>
+        <item>Documentário</item>
+        <item>Musical</item>
+        <item>História</item>
+        <item>Guerra</item>
+        <item>Família</item>
+        <item>Super-herói</item>
+        <item>Suspense</item>
+        <item>Western</item>
+        <item>Noir</item>
+    </string-array>
+</resources>

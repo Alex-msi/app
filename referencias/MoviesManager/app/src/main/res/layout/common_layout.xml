@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/titleTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/title"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <EditText
+        android:id="@+id/editTextTitle"
+        android:layout_width="match_parent"
+        android:hint="@string/titulo_do_filme"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:inputType="text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/titleTv"/>
+
+    <TextView
+        android:id="@+id/yearTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/year"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editTextTitle"/>
+
+    <EditText
+        android:id="@+id/editTextYear"
+        android:layout_width="match_parent"
+        android:hint="@string/year"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:inputType="number"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/yearTv"/>
+
+    <TextView
+        android:id="@+id/studioTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/studio"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editTextYear"/>
+
+    <EditText
+        android:id="@+id/editTextStudio"
+        android:layout_width="match_parent"
+        android:hint="@string/studio"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:inputType="text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/studioTv"/>
+
+    <LinearLayout
+        android:id="@+id/linearLt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editTextStudio"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/durationTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/duration"
+            android:textSize="20sp"
+            android:layout_marginEnd="8dp"/>
+
+        <EditText
+            android:id="@+id/editTextDuration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/duration"
+            android:textSize="20sp"
+            android:inputType="number"
+            android:minWidth="10dp"
+            android:maxWidth="55dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="5dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/minutos"
+            android:textSize="20sp"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="5dp"/>
+
+        <TextView
+            android:id="@+id/watchedTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/watched"
+            android:textSize="20sp"
+            android:layout_marginStart="60dp"/>
+
+        <CheckBox
+            android:id="@+id/CheckBoxWatched"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:layout_marginStart="0dp"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/ratingTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/rating"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/linearLt" />
+
+
+    <EditText
+        android:id="@+id/editTextRating"
+        android:layout_width="match_parent"
+        android:hint="@string/rating"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:inputType="number"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ratingTv"/>
+
+    <TextView
+        android:id="@+id/genreTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/genre"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editTextRating"/>
+
+    <Spinner
+        android:id="@+id/spinnerGenre"
+        style="@style/SpinnerStyle"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:entries="@array/genre_options"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/genreTv"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">WatchList</string>
+    <string name="title">Title:</string>
+    <string name="description">Description:</string>
+    <string name="status">Status:</string>
+    <string name="salvar">Salvar</string>
+    <string name="excluir">Excluir</string>
+    <string name="pesquisar">Pesquisar</string>
+    <string name="empty_list">Lista de filmes vazia</string>
+    <string name="descricao">Descrição</string>
+    <string name="titulo_do_filme">Titulo do filme</string>
+    <string-array name="status_options">
+        <item>Watch</item>
+        <item>Watching</item>
+        <item>Watched</item>
+    </string-array>
+</resources>
