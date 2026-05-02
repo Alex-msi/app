@@ -18,16 +18,17 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Selecione o agrupamento"
-        android:textColor="@color/text_secondary_gray" />
-
-    <Spinner
-        android:id="@+id/grupoSp"
+    <Button
+        android:id="@+id/etapa1a5Bt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp" />
+        android:layout_marginTop="16dp"
+        android:text="Etapa 1º ao 5º" />
+
+    <Button
+        android:id="@+id/etapa6a9Bt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="Etapa 6º ao 9º" />
 </LinearLayout>

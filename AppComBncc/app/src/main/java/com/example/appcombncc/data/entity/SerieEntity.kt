@@ -6,7 +6,7 @@ import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
 @Entity(
-    tableName = "competencia_especifica",
+    tableName = "serie",
     foreignKeys = [
         ForeignKey(
             entity = EtapaEntity::class,
@@ -15,10 +15,10 @@ import androidx.room.PrimaryKey
         )
     ]
 )
-data class CompetenciaEspecificaEntity(
+data class SerieEntity(
     @PrimaryKey
     val codigo: String,
-    val descricao: String,
+    val nome: String,
     @ColumnInfo(name = "etapa_codigo")
     val etapaCodigo: String
 )

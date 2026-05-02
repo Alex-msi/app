@@ -2,9 +2,34 @@ package com.example.appcombncc.data.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "habilidade")
+@Entity(
+    tableName = "habilidade",
+    foreignKeys = [
+        ForeignKey(
+            entity = EixoEntity::class,
+            parentColumns = ["codigo"],
+            childColumns = ["eixo_codigo"]
+        ),
+        ForeignKey(
+            entity = ObjetoConhecimentoEntity::class,
+            parentColumns = ["id"],
+            childColumns = ["objeto_conhecimento_id"]
+        ),
+        ForeignKey(
+            entity = ConceitoHabilidadeEntity::class,
+            parentColumns = ["codigo"],
+            childColumns = ["conceito_codigo"]
+        ),
+        ForeignKey(
+            entity = CompetenciaEspecificaEntity::class,
+            parentColumns = ["codigo"],
+            childColumns = ["competencia_codigo"]
+        )
+    ]
+)
 data class HabilidadeEntity(
     @PrimaryKey
     val codigo: String,

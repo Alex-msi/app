@@ -1,19 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/buscaEt"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Buscar por código ou descrição" />
+        android:orientation="vertical"
+        android:padding="16dp">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/habilidadesRv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="12dp" />
-</LinearLayout>
+        <TextView
+            android:id="@+id/codigoHabilidadeTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Código: "
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/serieEtapaTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Série/Etapa: " />
+
+        <TextView
+            android:id="@+id/descricaoTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Descrição: " />
+
+        <Button
+            android:id="@+id/expandirExplicacaoBt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Expandir explicação" />
+
+        <TextView
+            android:id="@+id/explicacaoTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Explicação"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/expandirExemploBt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Expandir exemplo" />
+
+        <TextView
+            android:id="@+id/exemploTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Exemplo"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/criarPraticaBt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Criar prática (evolução)" />
+
+        <ImageButton
+            android:id="@+id/favoritarBt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:contentDescription="Favoritar habilidade"
+            android:src="@android:drawable/btn_star_big_off" />
+    </LinearLayout>
+</ScrollView>
+
