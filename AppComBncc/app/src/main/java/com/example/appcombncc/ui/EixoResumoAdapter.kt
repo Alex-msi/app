@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.appcombncc.R
 import com.example.appcombncc.data.model.EixoHabilidadeCount
 
-class EixoResumoAdapter : RecyclerView.Adapter<EixoResumoAdapter.EixoResumoViewHolder>() {
+class EixoResumoAdapter(
+    private val onItemClick: (EixoHabilidadeCount) -> Unit
+) : RecyclerView.Adapter<EixoResumoAdapter.EixoResumoViewHolder>() {
     private val itens = mutableListOf<EixoHabilidadeCount>()
 
     fun submitList(novosItens: List<EixoHabilidadeCount>) {
@@ -19,7 +21,7 @@ class EixoResumoAdapter : RecyclerView.Adapter<EixoResumoAdapter.EixoResumoViewH
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EixoResumoViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_eixo_resumo, parent, false)
-        return EixoResumoViewHolder(view)
+        return EixoResumoViewHolder(view, onItemClick)
     }
 
     override fun onBindViewHolder(holder: EixoResumoViewHolder, position: Int) {
@@ -28,13 +30,17 @@ class EixoResumoAdapter : RecyclerView.Adapter<EixoResumoAdapter.EixoResumoViewH
 
     override fun getItemCount(): Int = itens.size
 
-    class EixoResumoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class EixoResumoViewHolder(
+        itemView: View,
+        private val onItemClick: (EixoHabilidadeCount) -> Unit
+    ) : RecyclerView.ViewHolder(itemView) {
         private val eixoDescricaoTv: TextView = itemView.findViewById(R.id.eixoDescricaoTv)
         private val totalHabilidadesTv: TextView = itemView.findViewById(R.id.totalHabilidadesTv)
 
         fun bind(item: EixoHabilidadeCount) {
             eixoDescricaoTv.text = item.eixo
             totalHabilidadesTv.text = "Total de habilidades: ${item.totalHabilidades}"
+            itemView.setOnClickListener { onItemClick(item) }
         }
     }
 }

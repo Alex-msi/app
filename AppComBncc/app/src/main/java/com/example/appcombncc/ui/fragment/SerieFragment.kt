@@ -2,6 +2,7 @@ package com.example.appcombncc.ui.fragment
 
 import android.os.Bundle
 import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.Spinner
@@ -31,18 +32,40 @@ class SerieFragment : Fragment(R.layout.fragment_serie) {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.series.collect { series ->
+                val itensSpinner = listOf("Selecione uma série") + series
                 seriesSp.adapter = ArrayAdapter(
                     requireContext(),
                     android.R.layout.simple_spinner_dropdown_item,
-                    series
+                    itensSpinner
                 )
             }
+        }
+
+        seriesSp.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                selectedView: View?,
+                position: Int,
+                id: Long
+            ) {
+                if (position == 0) {
+                    return
+                }
+                val serieSelecionada = parent?.getItemAtPosition(position)?.toString().orEmpty()
+                val bundle = Bundle().apply {
+                    putString("serieSelecionada", serieSelecionada)
+                }
+                findNavController().navigate(R.id.eixoCompetenciaFragment, bundle)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 
         etapa1a5Bt.setOnClickListener {
             val bundle = Bundle().apply {
                 putString("serieSelecionada", "")
-                putString("etapaSelecionada", "")
+                putString("etapaSelecionada", "EFI_ETAPA")
+                putString("habilidadeLike", "EF15%")
             }
             findNavController().navigate(R.id.eixoCompetenciaFragment, bundle)
         }
@@ -50,7 +73,8 @@ class SerieFragment : Fragment(R.layout.fragment_serie) {
         etapa6a9Bt.setOnClickListener {
             val bundle = Bundle().apply {
                 putString("serieSelecionada", "")
-                putString("etapaSelecionada", "")
+                putString("etapaSelecionada", "EFII_ETAPA")
+                putString("habilidadeLike", "EF69%")
             }
             findNavController().navigate(R.id.eixoCompetenciaFragment, bundle)
         }
