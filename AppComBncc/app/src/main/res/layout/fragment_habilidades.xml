@@ -76,4 +76,3 @@
             android:src="@android:drawable/btn_star_big_off" />
     </LinearLayout>
 </ScrollView>
-

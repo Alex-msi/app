@@ -37,7 +37,12 @@
     <fragment
         android:id="@+id/listaHabilidadeFragment"
         android:name="com.example.appcombncc.ui.fragment.ListaHabilidadeFragment"
-        android:label="Lista de Habilidades" />
+        android:label="Lista de Habilidades">
+
+        <action
+            android:id="@+id/action_listaHabilidadeFragment_to_habilidadesFragment"
+            app:destination="@id/habilidadesFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/habilidadesFragment"

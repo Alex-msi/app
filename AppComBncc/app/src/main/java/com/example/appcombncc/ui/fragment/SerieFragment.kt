@@ -6,6 +6,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.Spinner
+import androidx.core.graphics.toColorInt
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -29,6 +30,12 @@ class SerieFragment : Fragment(R.layout.fragment_serie) {
         val seriesSp = view.findViewById<Spinner>(R.id.seriesSp)
         val etapa1a5Bt = view.findViewById<Button>(R.id.etapa1a5Bt)
         val etapa6a9Bt = view.findViewById<Button>(R.id.etapa6a9Bt)
+        val etapaCor = arguments?.getString("etapaCor").orEmpty()
+
+        if (etapaCor.isNotEmpty()) {
+            etapa1a5Bt.setBackgroundColor(etapaCor.toColorInt())
+            etapa6a9Bt.setBackgroundColor(etapaCor.toColorInt())
+        }
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.series.collect { series ->
@@ -42,23 +49,19 @@ class SerieFragment : Fragment(R.layout.fragment_serie) {
         }
 
         seriesSp.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                selectedView: View?,
-                position: Int,
-                id: Long
-            ) {
+            override fun onItemSelected(parent: AdapterView<*>?, selectedView: View?, position: Int, id: Long) {
                 if (position == 0) {
                     return
                 }
                 val serieSelecionada = parent?.getItemAtPosition(position)?.toString().orEmpty()
                 val bundle = Bundle().apply {
                     putString("serieSelecionada", serieSelecionada)
+                    putString("etapaCor", etapaCor)
                 }
                 findNavController().navigate(R.id.eixoCompetenciaFragment, bundle)
             }
 
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
+            override fun onNothingSelected(parent: AdapterView<*>?) = Unit
         }
 
         etapa1a5Bt.setOnClickListener {
@@ -66,6 +69,7 @@ class SerieFragment : Fragment(R.layout.fragment_serie) {
                 putString("serieSelecionada", "")
                 putString("etapaSelecionada", "EFI_ETAPA")
                 putString("habilidadeLike", "EF15%")
+                putString("etapaCor", etapaCor)
             }
             findNavController().navigate(R.id.eixoCompetenciaFragment, bundle)
         }
@@ -75,6 +79,7 @@ class SerieFragment : Fragment(R.layout.fragment_serie) {
                 putString("serieSelecionada", "")
                 putString("etapaSelecionada", "EFII_ETAPA")
                 putString("habilidadeLike", "EF69%")
+                putString("etapaCor", etapaCor)
             }
             findNavController().navigate(R.id.eixoCompetenciaFragment, bundle)
         }

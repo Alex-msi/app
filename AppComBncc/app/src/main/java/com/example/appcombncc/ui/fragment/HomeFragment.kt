@@ -16,29 +16,15 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         val efBt = view.findViewById<Button>(R.id.etapaEfBt)
         val emBt = view.findViewById<Button>(R.id.etapaEmBt)
 
-        eiBt.setOnClickListener { navigateToSerie("EI") }
-        efBt.setOnClickListener { navigateToSerie("EF") }
-        emBt.setOnClickListener { navigateToSerie("EM") }
+        eiBt.setOnClickListener { navigateToSerie("EI", "#4CAF50") }
+        efBt.setOnClickListener { navigateToSerie("EF", "#1976D2") }
+        emBt.setOnClickListener { navigateToSerie("EM", "#FFCA28") }
     }
-    private fun navigateToSerie(etapa: String) {
-        val bundle = Bundle().apply { putString("etapaSelecionada", etapa) }
+    private fun navigateToSerie(etapa: String, etapaCor: String) {
+        val bundle = Bundle().apply {
+            putString("etapaSelecionada", etapa)
+            putString("etapaCor", etapaCor)
+        }
         findNavController().navigate(R.id.serieFragment, bundle)
     }
-
-// Primeiro teste apagar depois
-//        val tv = view.findViewById<TextView>(R.id.homeTextTv)
-//
-//        // contando etapas teste
-//        viewModel.debugCountEtapas()  // ← ISSO AQUI!
-//        //
-//
-//        viewLifecycleOwner.lifecycleScope.launch {
-//            viewModel.etapas.collect { lista ->
-//                tv.text = if (lista.isEmpty()) {
-//                    "Sem etapas"
-//                } else {
-//                    lista.joinToString("\n") { "${it.codigo} - ${it.nome}" }
-//                }
-//            }
-//        }
 }

@@ -6,16 +6,28 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import com.example.appcombncc.AppComBnccApplication
 import com.example.appcombncc.R
+import com.example.appcombncc.viewmodel.HabilidadesViewModel
+import com.example.appcombncc.viewmodel.HabilidadesViewModelFactory
+import kotlinx.coroutines.launch
 
 class HabilidadesFragment : Fragment(R.layout.fragment_habilidades) {
-    // Receber argumentos (etapa, série, eixo/competência)
-    // Executar consulta adequada via ViewModel
-    // Aplicar busca textual (código/descrição)
-    // Renderizar lista no RecyclerView
-//}
+    private val viewModel: HabilidadesViewModel by viewModels {
+        HabilidadesViewModelFactory(
+            (requireActivity().application as AppComBnccApplication).habilidadeRepository
+        )
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val codigo = arguments?.getString("habilidadeCodigo").orEmpty()
+        val descricao = arguments?.getString("habilidadeDescricao").orEmpty()
+        val serieSelecionada = arguments?.getString("serieSelecionada").orEmpty()
+        val etapaSelecionada = arguments?.getString("etapaSelecionada").orEmpty()
 
         val codigoTv = view.findViewById<TextView>(R.id.codigoHabilidadeTv)
         val serieEtapaTv = view.findViewById<TextView>(R.id.serieEtapaTv)
@@ -26,11 +38,21 @@ class HabilidadesFragment : Fragment(R.layout.fragment_habilidades) {
         val expandirExemploBt = view.findViewById<Button>(R.id.expandirExemploBt)
         val favoritarBt = view.findViewById<ImageButton>(R.id.favoritarBt)
 
-        codigoTv.text = "Código: "
-        serieEtapaTv.text = "Série/Etapa: "
-        descricaoTv.text = "Descrição: "
+        codigoTv.text = "Código: $codigo"
+        serieEtapaTv.text = "Série/Etapa: ${serieSelecionada.ifEmpty { etapaSelecionada }}"
+        descricaoTv.text = "Descrição: $descricao"
         explicacaoTv.text = "Explicação: "
         exemploTv.text = "Exemplo: "
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.getByCodigo(codigo).collect { habilidade ->
+                val explicacao = habilidade?.explicacao.orEmpty()
+                val exemplo = habilidade?.exemplo.orEmpty()
+
+                explicacaoTv.text = "Explicação: ${if (explicacao.isEmpty()) "Não informada" else explicacao}"
+                exemploTv.text = "Exemplo: ${if (exemplo.isEmpty()) "Não informado" else exemplo}"
+            }
+        }
 
         expandirExplicacaoBt.setOnClickListener {
             explicacaoTv.visibility = if (explicacaoTv.visibility == View.VISIBLE) View.GONE else View.VISIBLE

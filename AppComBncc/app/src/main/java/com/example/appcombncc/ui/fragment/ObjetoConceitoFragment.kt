@@ -3,6 +3,7 @@ package com.example.appcombncc.ui.fragment
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import androidx.core.graphics.toColorInt
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -32,10 +33,25 @@ class ObjetoConceitoFragment : Fragment(R.layout.fragment_objeto_conceito) {
         val etapaSelecionada = arguments?.getString("etapaSelecionada").orEmpty()
         val habilidadeLike = arguments?.getString("habilidadeLike").orEmpty()
         val eixoSelecionado = arguments?.getString("eixoSelecionado").orEmpty()
+        val etapaCor = arguments?.getString("etapaCor").orEmpty()
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.objetoConceitoRv)
         val continuarBt = view.findViewById<Button>(R.id.continuarObjetoBt)
-        val adapter = ObjetoResumoAdapter()
+        if (etapaCor.isNotEmpty()) {
+            continuarBt.setBackgroundColor(etapaCor.toColorInt())
+        }
+
+        val adapter = ObjetoResumoAdapter { objetoSelecionado ->
+            val bundle = Bundle().apply {
+                putString("serieSelecionada", serieSelecionada)
+                putString("etapaSelecionada", etapaSelecionada)
+                putString("habilidadeLike", habilidadeLike)
+                putString("eixoSelecionado", eixoSelecionado)
+                putLong("objetoSelecionadoId", objetoSelecionado.objetoId)
+                putString("etapaCor", etapaCor)
+            }
+            findNavController().navigate(R.id.action_objetoConceitoFragment_to_listaHabilidadeFragment, bundle)
+        }
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
@@ -54,7 +70,15 @@ class ObjetoConceitoFragment : Fragment(R.layout.fragment_objeto_conceito) {
         }
 
         continuarBt.setOnClickListener {
-            findNavController().navigate(R.id.action_objetoConceitoFragment_to_listaHabilidadeFragment)
+            val bundle = Bundle().apply {
+                putString("serieSelecionada", serieSelecionada)
+                putString("etapaSelecionada", etapaSelecionada)
+                putString("habilidadeLike", habilidadeLike)
+                putString("eixoSelecionado", eixoSelecionado)
+                putLong("objetoSelecionadoId", -1L)
+                putString("etapaCor", etapaCor)
+            }
+            findNavController().navigate(R.id.action_objetoConceitoFragment_to_listaHabilidadeFragment, bundle)
         }
     }
 }

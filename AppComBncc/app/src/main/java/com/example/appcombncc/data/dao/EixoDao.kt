@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Query
 import com.example.appcombncc.data.entity.EixoEntity
 import com.example.appcombncc.data.model.EixoHabilidadeCount
+import com.example.appcombncc.data.model.HabilidadeListaItem
 import com.example.appcombncc.data.model.ObjetoHabilidadeCount
 import kotlinx.coroutines.flow.Flow
 
@@ -18,6 +19,7 @@ interface EixoDao {
     @Query(
         """
         SELECT 
+            e.codigo AS eixoCodigo,
             e.descricao AS eixo,
             COUNT(h.codigo) AS totalHabilidades
         FROM serie s
@@ -37,6 +39,7 @@ interface EixoDao {
         SELECT
             et.codigo AS etapaCodigo,
             et.nome AS etapaNome,
+            e.codigo AS eixoCodigo,
             e.descricao AS eixo,
             COUNT(h.codigo) AS totalHabilidades
         FROM etapa et
@@ -54,6 +57,7 @@ interface EixoDao {
     @Query(
         """
         SELECT
+            oc.id AS objetoId,
             oc.nome AS objeto,
             COUNT(h.codigo) AS totalHabilidades
         FROM serie s
@@ -64,16 +68,17 @@ interface EixoDao {
         JOIN objeto_conhecimento oc
             ON oc.id = h.objeto_conhecimento_id
         WHERE s.codigo = :serieCodigo
-          AND e.descricao = :eixoDescricao
+          AND e.codigo = :eixoCodigo
         GROUP BY oc.id, oc.nome
         ORDER BY totalHabilidades DESC
         """
     )
-    fun getResumoObjetosPorSerieEixo(serieCodigo: String, eixoDescricao: String): Flow<List<ObjetoHabilidadeCount>>
+    fun getResumoObjetosPorSerieEixo(serieCodigo: String, eixoCodigo: String): Flow<List<ObjetoHabilidadeCount>>
 
     @Query(
         """
         SELECT
+            oc.id AS objetoId,
             oc.nome AS objeto,
             COUNT(h.codigo) AS totalHabilidades
         FROM etapa et
@@ -84,7 +89,7 @@ interface EixoDao {
         JOIN objeto_conhecimento oc
             ON oc.id = h.objeto_conhecimento_id
         WHERE et.codigo = :etapaCodigo
-          AND e.descricao = :eixoDescricao
+          AND e.codigo = :eixoCodigo
         GROUP BY oc.id, oc.nome
         ORDER BY totalHabilidades DESC
         """
@@ -92,6 +97,85 @@ interface EixoDao {
     fun getResumoObjetosPorEtapaEixo(
         etapaCodigo: String,
         habilidadeLike: String,
-        eixoDescricao: String
+        eixoCodigo: String
     ): Flow<List<ObjetoHabilidadeCount>>
+
+    @Query(
+        """
+        SELECT h.codigo AS codigo, h.descricao AS descricao
+        FROM serie s
+        JOIN habilidade h
+            ON h.codigo LIKE 'EF' || printf('%02d', CAST(substr(s.codigo, 1, instr(s.codigo, '_') - 1) AS INTEGER)) || '%'
+        JOIN eixo e
+            ON e.codigo = h.eixo_codigo
+        JOIN objeto_conhecimento oc
+            ON oc.id = h.objeto_conhecimento_id
+        WHERE s.codigo = :serieCodigo
+          AND e.codigo = :eixoCodigo
+          AND oc.id = :objetoId
+        ORDER BY h.codigo
+        """
+    )
+    fun getHabilidadesPorSerieEixoObjeto(
+        serieCodigo: String,
+        eixoCodigo: String,
+        objetoId: Long
+    ): Flow<List<HabilidadeListaItem>>
+
+    @Query(
+        """
+        SELECT h.codigo AS codigo, h.descricao AS descricao
+        FROM etapa et
+        JOIN habilidade h
+            ON h.codigo LIKE :habilidadeLike
+        JOIN eixo e
+            ON e.codigo = h.eixo_codigo
+        JOIN objeto_conhecimento oc
+            ON oc.id = h.objeto_conhecimento_id
+        WHERE et.codigo = :etapaCodigo
+          AND e.codigo = :eixoCodigo
+          AND oc.id = :objetoId
+        ORDER BY h.codigo
+        """
+    )
+    fun getHabilidadesPorEtapaEixoObjeto(
+        etapaCodigo: String,
+        habilidadeLike: String,
+        eixoCodigo: String,
+        objetoId: Long
+    ): Flow<List<HabilidadeListaItem>>
+
+    @Query(
+        """
+        SELECT h.codigo AS codigo, h.descricao AS descricao
+        FROM serie s
+        JOIN habilidade h
+            ON h.codigo LIKE 'EF' || printf('%02d', CAST(substr(s.codigo, 1, instr(s.codigo, '_') - 1) AS INTEGER)) || '%'
+        JOIN eixo e
+            ON e.codigo = h.eixo_codigo
+        WHERE s.codigo = :serieCodigo
+          AND e.codigo = :eixoCodigo
+        ORDER BY h.codigo
+        """
+    )
+    fun getHabilidadesPorSerieEixo(serieCodigo: String, eixoCodigo: String): Flow<List<HabilidadeListaItem>>
+
+    @Query(
+        """
+        SELECT h.codigo AS codigo, h.descricao AS descricao
+        FROM etapa et
+        JOIN habilidade h
+            ON h.codigo LIKE :habilidadeLike
+        JOIN eixo e
+            ON e.codigo = h.eixo_codigo
+        WHERE et.codigo = :etapaCodigo
+          AND e.codigo = :eixoCodigo
+        ORDER BY h.codigo
+        """
+    )
+    fun getHabilidadesPorEtapaEixo(
+        etapaCodigo: String,
+        habilidadeLike: String,
+        eixoCodigo: String
+    ): Flow<List<HabilidadeListaItem>>
 }

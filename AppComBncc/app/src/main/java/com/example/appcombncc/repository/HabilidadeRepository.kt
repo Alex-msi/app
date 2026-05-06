@@ -6,4 +6,5 @@ class HabilidadeRepository(private val habilidadeDao: HabilidadeDao) {
     fun getByEixo(eixoCodigo: String) = habilidadeDao.getByEixo(eixoCodigo)
     fun getByCompetencia(competenciaCodigo: String) = habilidadeDao.getByCompetencia(competenciaCodigo)
     fun search(busca: String) = habilidadeDao.searchByCodigoOrDescricao(busca)
+    fun getByCodigo(codigo: String) = habilidadeDao.getByCodigo(codigo)
 }

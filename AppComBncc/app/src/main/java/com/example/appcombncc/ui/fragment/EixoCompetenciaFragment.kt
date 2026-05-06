@@ -2,14 +2,14 @@ package com.example.appcombncc.ui.fragment
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.appcombncc.R
+import androidx.recyclerview.widget.RecyclerView
 import com.example.appcombncc.AppComBnccApplication
+import com.example.appcombncc.R
 import com.example.appcombncc.data.model.EixoHabilidadeCount
 import com.example.appcombncc.ui.adapter.EixoResumoAdapter
 import com.example.appcombncc.viewmodel.EixoCompetenciaViewModel
@@ -31,21 +31,21 @@ class EixoCompetenciaFragment : Fragment(R.layout.fragment_eixo_competencia) {
         val serieSelecionada = arguments?.getString("serieSelecionada").orEmpty()
         val etapaSelecionada = arguments?.getString("etapaSelecionada").orEmpty()
         val habilidadeLike = arguments?.getString("habilidadeLike").orEmpty()
-        val recyclerView = view.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.eixoCompetenciaRv)
-        //val continuarBt = view.findViewById<Button>(R.id.continuarEixoBt)
+        val etapaCor = arguments?.getString("etapaCor").orEmpty()
+        val recyclerView = view.findViewById<RecyclerView>(R.id.eixoCompetenciaRv)
         val adapter = EixoResumoAdapter { itemSelecionado ->
             val bundle = Bundle().apply {
                 putString("serieSelecionada", serieSelecionada)
                 putString("etapaSelecionada", etapaSelecionada)
                 putString("habilidadeLike", habilidadeLike)
-                putString("eixoSelecionado", itemSelecionado.eixo)
+                putString("eixoSelecionado", itemSelecionado.eixoCodigo)
+                putString("etapaCor", etapaCor)
             }
             findNavController().navigate(
                 R.id.action_eixoCompetenciaFragment_to_objetoConceitoFragment,
                 bundle
             )
         }
-
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
 
@@ -61,8 +61,5 @@ class EixoCompetenciaFragment : Fragment(R.layout.fragment_eixo_competencia) {
                 adapter.submitList(lista)
             }
         }
-//        continuarBt.setOnClickListener {
-//            findNavController().navigate(R.id.action_eixoCompetenciaFragment_to_objetoConceitoFragment)
-//        }
     }
 }
