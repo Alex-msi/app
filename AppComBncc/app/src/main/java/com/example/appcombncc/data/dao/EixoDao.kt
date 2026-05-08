@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Query
 import com.example.appcombncc.data.entity.EixoEntity
 import com.example.appcombncc.data.model.EixoHabilidadeCount
+import com.example.appcombncc.data.model.CompetenciaHabilidadeItem
 import com.example.appcombncc.data.model.HabilidadeListaItem
 import com.example.appcombncc.data.model.ObjetoHabilidadeCount
 import kotlinx.coroutines.flow.Flow
@@ -178,4 +179,19 @@ interface EixoDao {
         habilidadeLike: String,
         eixoCodigo: String
     ): Flow<List<HabilidadeListaItem>>
+
+    @Query(
+        """
+        SELECT
+            ce.codigo AS competenciaCodigo,
+            ce.descricao AS competenciaDescricao,
+            h.codigo AS habilidadeCodigo,
+            h.descricao AS habilidadeDescricao
+        FROM competencia_especifica ce
+        JOIN habilidade h ON h.competencia_codigo = ce.codigo
+        WHERE ce.etapa_codigo = :etapaCodigo
+        ORDER BY ce.codigo, h.codigo
+        """
+    )
+    fun getHabilidadesPorCompetenciaEtapa(etapaCodigo: String): Flow<List<CompetenciaHabilidadeItem>>
 }

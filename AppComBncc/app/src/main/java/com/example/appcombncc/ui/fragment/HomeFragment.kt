@@ -18,8 +18,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         eiBt.setOnClickListener { navigateToEixoInfantil("#4CAF50") }
         efBt.setOnClickListener { navigateToSerie("EF", "#1976D2") }
-        emBt.setOnClickListener { navigateToSerie("EM", "#FFCA28") }
+        emBt.setOnClickListener { navigateToListaHabilidadesEm("#FFCA28") }
     }
+
     private fun navigateToSerie(etapa: String, etapaCor: String) {
         val bundle = Bundle().apply {
             putString("etapaSelecionada", etapa)
@@ -27,6 +28,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
         findNavController().navigate(R.id.serieFragment, bundle)
     }
+
     private fun navigateToEixoInfantil(etapaCor: String) {
         val bundle = Bundle().apply {
             putString("serieSelecionada", "")
@@ -35,5 +37,18 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             putString("etapaCor", etapaCor)
         }
         findNavController().navigate(R.id.eixoCompetenciaFragment, bundle)
+    }
+
+
+    private fun navigateToListaHabilidadesEm(etapaCor: String) {
+        val bundle = Bundle().apply {
+            putString("serieSelecionada", "")
+            putString("etapaSelecionada", "EM")
+            putString("habilidadeLike", "")
+            putString("eixoSelecionado", "")
+            putLong("objetoSelecionadoId", -1L)
+            putString("etapaCor", etapaCor)
+        }
+        findNavController().navigate(R.id.listaHabilidadeFragment, bundle)
     }
 }

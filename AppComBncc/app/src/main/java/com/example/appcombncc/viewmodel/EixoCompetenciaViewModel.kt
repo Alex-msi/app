@@ -6,7 +6,6 @@ import com.example.appcombncc.repository.EixoCompetenciaRepository
 class EixoCompetenciaViewModel(
     private val repository: EixoCompetenciaRepository
 ) : ViewModel() {
-
     fun getEixosBySerie(serieCodigo: String) = repository.getEixosBySerie(serieCodigo)
     fun getResumoEixosPorSerie(serieCodigo: String) = repository.getResumoEixosPorSerie(serieCodigo)
     fun getResumoEixosPorEtapa(etapaCodigo: String, habilidadeLike: String) =
@@ -27,5 +26,7 @@ class EixoCompetenciaViewModel(
         repository.getHabilidadesPorSerieEixo(serieCodigo, eixoCodigo)
     fun getHabilidadesPorEtapaEixo(etapaCodigo: String, habilidadeLike: String, eixoCodigo: String) =
         repository.getHabilidadesPorEtapaEixo(etapaCodigo, habilidadeLike, eixoCodigo)
+    fun getHabilidadesPorCompetenciaEtapa(etapaCodigo: String) =
+        repository.getHabilidadesPorCompetenciaEtapa(etapaCodigo)
     fun getCompetenciasByEtapa(etapaCodigo: String) = repository.getCompetenciasByEtapa(etapaCodigo)
 }

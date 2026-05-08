@@ -66,5 +66,6 @@ class EixoCompetenciaFragment : Fragment(R.layout.fragment_eixo_competencia) {
                 adapter.submitList(lista)
             }
         }
+
     }
 }
