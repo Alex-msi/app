@@ -41,17 +41,19 @@ class ObjetoConceitoFragment : Fragment(R.layout.fragment_objeto_conceito) {
             continuarBt.setBackgroundColor(etapaCor.toColorInt())
         }
 
-        val adapter = ObjetoResumoAdapter { objetoSelecionado ->
-            val bundle = Bundle().apply {
-                putString("serieSelecionada", serieSelecionada)
-                putString("etapaSelecionada", etapaSelecionada)
-                putString("habilidadeLike", habilidadeLike)
-                putString("eixoSelecionado", eixoSelecionado)
-                putLong("objetoSelecionadoId", objetoSelecionado.objetoId)
-                putString("etapaCor", etapaCor)
-            }
-            findNavController().navigate(R.id.action_objetoConceitoFragment_to_listaHabilidadeFragment, bundle)
-        }
+//        val adapter = ObjetoResumoAdapter { objetoSelecionado ->
+//            val bundle = Bundle().apply {
+//                putString("serieSelecionada", serieSelecionada)
+//                putString("etapaSelecionada", etapaSelecionada)
+//                putString("habilidadeLike", habilidadeLike)
+//                putString("eixoSelecionado", eixoSelecionado)
+//                putLong("objetoSelecionadoId", objetoSelecionado.objetoId)
+//                putString("etapaCor", etapaCor)
+//            }
+//            findNavController().navigate(R.id.action_objetoConceitoFragment_to_listaHabilidadeFragment, bundle)
+//        }
+
+        val adapter = ObjetoResumoAdapter { } // apagar depois
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
@@ -69,16 +71,16 @@ class ObjetoConceitoFragment : Fragment(R.layout.fragment_objeto_conceito) {
             }
         }
 
-        continuarBt.setOnClickListener {
-            val bundle = Bundle().apply {
-                putString("serieSelecionada", serieSelecionada)
-                putString("etapaSelecionada", etapaSelecionada)
-                putString("habilidadeLike", habilidadeLike)
-                putString("eixoSelecionado", eixoSelecionado)
-                putLong("objetoSelecionadoId", -1L)
-                putString("etapaCor", etapaCor)
-            }
-            findNavController().navigate(R.id.action_objetoConceitoFragment_to_listaHabilidadeFragment, bundle)
-        }
+//        continuarBt.setOnClickListener {
+//            val bundle = Bundle().apply {
+//                putString("serieSelecionada", serieSelecionada)
+//                putString("etapaSelecionada", etapaSelecionada)
+//                putString("habilidadeLike", habilidadeLike)
+//                putString("eixoSelecionado", eixoSelecionado)
+//                putLong("objetoSelecionadoId", -1L)
+//                putString("etapaCor", etapaCor)
+//            }
+//            findNavController().navigate(R.id.action_objetoConceitoFragment_to_listaHabilidadeFragment, bundle)
+//        }
     }
 }
