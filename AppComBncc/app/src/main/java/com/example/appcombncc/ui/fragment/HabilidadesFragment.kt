@@ -44,6 +44,11 @@ class HabilidadesFragment : Fragment(R.layout.fragment_habilidades) {
         explicacaoTv.text = "Explicação: "
         exemploTv.text = "Exemplo: "
 
+        if (etapaSelecionada == "EI") {
+            expandirExplicacaoBt.visibility = View.GONE
+            explicacaoTv.visibility = View.GONE
+        }
+
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getByCodigo(codigo).collect { habilidade ->
                 val explicacao = habilidade?.explicacao.orEmpty()

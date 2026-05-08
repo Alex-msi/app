@@ -17,7 +17,6 @@ import com.example.appcombncc.viewmodel.EixoCompetenciaViewModelFactory
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
-
 class EixoCompetenciaFragment : Fragment(R.layout.fragment_eixo_competencia) {
     private val viewModel: EixoCompetenciaViewModel by viewModels {
         EixoCompetenciaViewModelFactory(
@@ -40,11 +39,17 @@ class EixoCompetenciaFragment : Fragment(R.layout.fragment_eixo_competencia) {
                 putString("habilidadeLike", habilidadeLike)
                 putString("eixoSelecionado", itemSelecionado.eixoCodigo)
                 putString("etapaCor", etapaCor)
+                putLong("objetoSelecionadoId", -1L)
             }
-            findNavController().navigate(
-                R.id.action_eixoCompetenciaFragment_to_objetoConceitoFragment,
-                bundle
-            )
+
+            if (etapaSelecionada == "EI") {
+                findNavController().navigate(R.id.listaHabilidadeFragment, bundle)
+            } else {
+                findNavController().navigate(
+                    R.id.action_eixoCompetenciaFragment_to_objetoConceitoFragment,
+                    bundle
+                )
+            }
         }
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter

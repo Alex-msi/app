@@ -16,7 +16,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         val efBt = view.findViewById<Button>(R.id.etapaEfBt)
         val emBt = view.findViewById<Button>(R.id.etapaEmBt)
 
-        eiBt.setOnClickListener { navigateToSerie("EI", "#4CAF50") }
+        eiBt.setOnClickListener { navigateToEixoInfantil("#4CAF50") }
         efBt.setOnClickListener { navigateToSerie("EF", "#1976D2") }
         emBt.setOnClickListener { navigateToSerie("EM", "#FFCA28") }
     }
@@ -26,5 +26,14 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             putString("etapaCor", etapaCor)
         }
         findNavController().navigate(R.id.serieFragment, bundle)
+    }
+    private fun navigateToEixoInfantil(etapaCor: String) {
+        val bundle = Bundle().apply {
+            putString("serieSelecionada", "")
+            putString("etapaSelecionada", "EI")
+            putString("habilidadeLike", "EI%")
+            putString("etapaCor", etapaCor)
+        }
+        findNavController().navigate(R.id.eixoCompetenciaFragment, bundle)
     }
 }
