@@ -6,6 +6,10 @@ import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.appcombncc.R
+import android.widget.Toast
+import android.os.Environment
+import java.io.File
+import java.io.FileOutputStream
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
 
@@ -15,10 +19,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         val eiBt = view.findViewById<Button>(R.id.etapaEiBt)
         val efBt = view.findViewById<Button>(R.id.etapaEfBt)
         val emBt = view.findViewById<Button>(R.id.etapaEmBt)
+        val pdfBt = view.findViewById<Button>(R.id.pdfBnccBt)
 
         eiBt.setOnClickListener { navigateToEixoInfantil("#4CAF50") }
         efBt.setOnClickListener { navigateToSerie("EF", "#1976D2") }
-        emBt.setOnClickListener { navigateToListaHabilidadesEm("#FFCA28") }
+        emBt.setOnClickListener { navigateToEixoMedio("#FFCA28") }
+        pdfBt.setOnClickListener { baixarPdfBncc() }
     }
 
     private fun navigateToSerie(etapa: String, etapaCor: String) {
@@ -39,16 +45,39 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         findNavController().navigate(R.id.eixoCompetenciaFragment, bundle)
     }
 
-
-    private fun navigateToListaHabilidadesEm(etapaCor: String) {
+    private fun navigateToEixoMedio(etapaCor: String) {
         val bundle = Bundle().apply {
             putString("serieSelecionada", "")
             putString("etapaSelecionada", "EM")
             putString("habilidadeLike", "")
-            putString("eixoSelecionado", "")
-            putLong("objetoSelecionadoId", -1L)
             putString("etapaCor", etapaCor)
         }
-        findNavController().navigate(R.id.listaHabilidadeFragment, bundle)
+        findNavController().navigate(R.id.eixoCompetenciaFragment, bundle)
+    }
+
+    private fun baixarPdfBncc() {
+        val nomeArquivo = "BNCCComputaoCompletodiagramado.pdf"
+        val downloadsDir =
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+        val destino = File(downloadsDir, nomeArquivo)
+
+        try {
+            requireContext().assets.open(nomeArquivo).use { input ->
+                FileOutputStream(destino).use { output ->
+                    input.copyTo(output)
+                }
+            }
+            Toast.makeText(
+                requireContext(),
+                "PDF salvo em: ${destino.absolutePath}",
+                Toast.LENGTH_LONG
+            ).show()
+        } catch (e: Exception) {
+            Toast.makeText(
+                requireContext(),
+                "Falha ao baixar PDF: ${e.message}",
+                Toast.LENGTH_LONG
+            ).show()
+        }
     }
 }

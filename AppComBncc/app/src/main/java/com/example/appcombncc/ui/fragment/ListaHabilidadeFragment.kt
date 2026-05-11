@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.navigation.fragment.findNavController
 import com.example.appcombncc.AppComBnccApplication
 import com.example.appcombncc.R
+import android.widget.TextView
+import com.example.appcombncc.data.model.CompetenciaHabilidadeItem
 import com.example.appcombncc.data.model.HabilidadeListaItem
 import com.example.appcombncc.ui.adapter.HabilidadeListaAdapter
 import com.example.appcombncc.viewmodel.EixoCompetenciaViewModel
@@ -32,6 +34,13 @@ class ListaHabilidadeFragment : Fragment(R.layout.fragment_lista_habilidade) {
         val habilidadeLike = arguments?.getString("habilidadeLike").orEmpty()
         val eixoSelecionado = arguments?.getString("eixoSelecionado").orEmpty()
         val objetoSelecionadoId = arguments?.getLong("objetoSelecionadoId", -1L) ?: -1L
+        val competenciaSelecionada = arguments?.getString("competenciaSelecionada").orEmpty()
+        val competenciaDescricao = arguments?.getString("competenciaDescricao").orEmpty()
+        val listaHabilidadesTituloTv =
+            view.findViewById<TextView>(R.id.listaHabilidadesTituloTv)
+
+        val competenciaDescricaoTv =
+            view.findViewById<TextView>(R.id.competenciaDescricaoTv)
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.listaHabilidadeRv)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -46,29 +55,51 @@ class ListaHabilidadeFragment : Fragment(R.layout.fragment_lista_habilidade) {
         }
         recyclerView.adapter = adapter
 
-        val habilidadesFlow: Flow<List<HabilidadeListaItem>> =
-            if (objetoSelecionadoId > 0L) {
-                if (serieSelecionada.isNotEmpty()) {
-                    viewModel.getHabilidadesPorSerieEixoObjeto(serieSelecionada, eixoSelecionado, objetoSelecionadoId)
-                } else {
-                    viewModel.getHabilidadesPorEtapaEixoObjeto(
-                        etapaSelecionada,
-                        habilidadeLike,
-                        eixoSelecionado,
-                        objetoSelecionadoId
-                    )
-                }
-            } else {
-                if (serieSelecionada.isNotEmpty()) {
-                    viewModel.getHabilidadesPorSerieEixo(serieSelecionada, eixoSelecionado)
-                } else {
-                    viewModel.getHabilidadesPorEtapaEixo(etapaSelecionada, habilidadeLike, eixoSelecionado)
+        if (etapaSelecionada == "EM") {
+            viewLifecycleOwner.lifecycleScope.launch {
+                val competenciasFlow: Flow<List<CompetenciaHabilidadeItem>> =
+                    viewModel.getHabilidadesPorCompetenciaEtapa("EM")
+
+                competenciasFlow.collect { lista ->
+                    val habilidadesFiltradas = lista
+                        .filter { it.competenciaCodigo == competenciaSelecionada }
+                        .map { HabilidadeListaItem(codigo = it.habilidadeCodigo, descricao = it.habilidadeDescricao) }
+
+                    listaHabilidadesTituloTv?.text = "Lista de Habilidades da Competência:"
+                    listaHabilidadesTituloTv?.visibility = View.VISIBLE
+                    competenciaDescricaoTv?.visibility = View.VISIBLE
+                    competenciaDescricaoTv?.text = competenciaDescricao
+                    adapter.submitList(habilidadesFiltradas)
                 }
             }
+        } else {
+            listaHabilidadesTituloTv?.text = "Lista de Habilidades"
+            competenciaDescricaoTv?.visibility = View.GONE
+            competenciaDescricaoTv?.visibility = View.GONE
+            val habilidadesFlow: Flow<List<HabilidadeListaItem>> =
+                if (objetoSelecionadoId > 0L) {
+                    if (serieSelecionada.isNotEmpty()) {
+                        viewModel.getHabilidadesPorSerieEixoObjeto(serieSelecionada, eixoSelecionado, objetoSelecionadoId)
+                    } else {
+                        viewModel.getHabilidadesPorEtapaEixoObjeto(
+                            etapaSelecionada,
+                            habilidadeLike,
+                            eixoSelecionado,
+                            objetoSelecionadoId
+                        )
+                    }
+                } else {
+                    if (serieSelecionada.isNotEmpty()) {
+                        viewModel.getHabilidadesPorSerieEixo(serieSelecionada, eixoSelecionado)
+                    } else {
+                        viewModel.getHabilidadesPorEtapaEixo(etapaSelecionada, habilidadeLike, eixoSelecionado)
+                    }
+                }
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            habilidadesFlow.collect { lista ->
-                adapter.submitList(lista)
+            viewLifecycleOwner.lifecycleScope.launch {
+                habilidadesFlow.collect { lista ->
+                    adapter.submitList(lista)
+                }
             }
         }
     }

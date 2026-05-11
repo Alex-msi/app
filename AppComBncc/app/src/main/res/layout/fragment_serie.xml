@@ -1,34 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/bg_white"
-    android:padding="16dp">
+    android:background="@color/bg_white">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Selecione a série"
-        android:textColor="@color/text_secondary_gray" />
-
-    <Spinner
-        android:id="@+id/seriesSp"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp" />
+        android:orientation="vertical"
+        android:padding="@dimen/space_16">
 
-    <Button
-        android:id="@+id/etapa1a5Bt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Etapa 1º ao 5º" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Selecione a série"
+            style="@style/SectionTitleText" />
 
-    <Button
-        android:id="@+id/etapa6a9Bt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:text="Etapa 6º ao 9º" />
-</LinearLayout>
+        <Spinner
+            android:id="@+id/seriesSp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_8" />
+
+        <Button
+            android:id="@+id/etapa1a5Bt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_16"
+            android:minHeight="@dimen/button_min_height"
+            android:text="Etapa 1º ao 5º"
+            android:textSize="@dimen/text_body" />
+
+        <Button
+            android:id="@+id/etapa6a9Bt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_8"
+            android:minHeight="@dimen/button_min_height"
+            android:text="Etapa 6º ao 9º"
+            android:textSize="@dimen/text_body" />
+
+    </LinearLayout>
+</ScrollView>

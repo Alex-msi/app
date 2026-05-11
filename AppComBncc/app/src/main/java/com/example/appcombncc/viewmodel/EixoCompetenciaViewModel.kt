@@ -28,5 +28,7 @@ class EixoCompetenciaViewModel(
         repository.getHabilidadesPorEtapaEixo(etapaCodigo, habilidadeLike, eixoCodigo)
     fun getHabilidadesPorCompetenciaEtapa(etapaCodigo: String) =
         repository.getHabilidadesPorCompetenciaEtapa(etapaCodigo)
+    fun getResumoCompetenciasPorEtapa(etapaCodigo: String) =
+        repository.getResumoCompetenciasPorEtapa(etapaCodigo)
     fun getCompetenciasByEtapa(etapaCodigo: String) = repository.getCompetenciasByEtapa(etapaCodigo)
 }

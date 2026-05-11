@@ -29,5 +29,7 @@ class EixoCompetenciaRepository(
         eixoDao.getHabilidadesPorEtapaEixo(etapaCodigo, habilidadeLike, eixoCodigo)
     fun getHabilidadesPorCompetenciaEtapa(etapaCodigo: String) =
         eixoDao.getHabilidadesPorCompetenciaEtapa(etapaCodigo)
+    fun getResumoCompetenciasPorEtapa(etapaCodigo: String) =
+        eixoDao.getResumoCompetenciasPorEtapa(etapaCodigo)
     fun getCompetenciasByEtapa(etapaCodigo: String) = competenciaDao.getByEtapa(etapaCodigo)
 }
