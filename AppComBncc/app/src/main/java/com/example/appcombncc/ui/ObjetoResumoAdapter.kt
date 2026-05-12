@@ -1,12 +1,10 @@
 package com.example.appcombncc.ui.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.appcombncc.R
 import com.example.appcombncc.data.model.ObjetoHabilidadeCount
+import com.example.appcombncc.databinding.ItemObjetoResumoBinding
 
 class ObjetoResumoAdapter(
     private val onItemClick: (ObjetoHabilidadeCount) -> Unit
@@ -20,8 +18,8 @@ class ObjetoResumoAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ObjetoResumoViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_objeto_resumo, parent, false)
-        return ObjetoResumoViewHolder(view, onItemClick)
+        val binding = ItemObjetoResumoBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ObjetoResumoViewHolder(binding, onItemClick)
     }
 
     override fun onBindViewHolder(holder: ObjetoResumoViewHolder, position: Int) {
@@ -31,16 +29,14 @@ class ObjetoResumoAdapter(
     override fun getItemCount(): Int = itens.size
 
     class ObjetoResumoViewHolder(
-        itemView: View,
+        private val binding: ItemObjetoResumoBinding,
         private val onItemClick: (ObjetoHabilidadeCount) -> Unit
-    ) : RecyclerView.ViewHolder(itemView) {
-        private val objetoDescricaoTv: TextView = itemView.findViewById(R.id.objetoDescricaoTv)
-        private val totalHabilidadesTv: TextView = itemView.findViewById(R.id.totalHabilidadesObjetoTv)
+    ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: ObjetoHabilidadeCount) {
-            objetoDescricaoTv.text = item.objeto
-            totalHabilidadesTv.text = "Total de habilidades: ${item.totalHabilidades}"
-            itemView.setOnClickListener { onItemClick(item) }
+            binding.objetoDescricaoTv.text = item.objeto
+            binding.totalHabilidadesObjetoTv.text = "Total de habilidades: ${item.totalHabilidades}"
+            binding.root.setOnClickListener { onItemClick(item) }
         }
     }
 }

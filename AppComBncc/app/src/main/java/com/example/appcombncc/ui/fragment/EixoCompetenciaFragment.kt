@@ -7,10 +7,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.appcombncc.AppComBnccApplication
 import com.example.appcombncc.R
 import com.example.appcombncc.data.model.EixoHabilidadeCount
+import com.example.appcombncc.databinding.FragmentEixoCompetenciaBinding
 import com.example.appcombncc.ui.adapter.CompetenciaResumoAdapter
 import com.example.appcombncc.ui.adapter.EixoResumoAdapter
 import com.example.appcombncc.viewmodel.EixoCompetenciaViewModel
@@ -19,6 +19,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 class EixoCompetenciaFragment : Fragment(R.layout.fragment_eixo_competencia) {
+    private var _binding: FragmentEixoCompetenciaBinding? = null
+    private val binding get() = _binding!!
+
     private val viewModel: EixoCompetenciaViewModel by viewModels {
         EixoCompetenciaViewModelFactory(
             (requireActivity().application as AppComBnccApplication).eixoCompetenciaRepository
@@ -27,12 +30,12 @@ class EixoCompetenciaFragment : Fragment(R.layout.fragment_eixo_competencia) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        _binding = FragmentEixoCompetenciaBinding.bind(view)
 
         val serieSelecionada = arguments?.getString("serieSelecionada").orEmpty()
         val etapaSelecionada = arguments?.getString("etapaSelecionada").orEmpty()
         val habilidadeLike = arguments?.getString("habilidadeLike").orEmpty()
         val etapaCor = arguments?.getString("etapaCor").orEmpty()
-        val recyclerView = view.findViewById<RecyclerView>(R.id.eixoCompetenciaRv)
 
         if (etapaSelecionada == "EM") {
             val competenciaAdapter = CompetenciaResumoAdapter { competenciaSelecionada ->
@@ -42,15 +45,19 @@ class EixoCompetenciaFragment : Fragment(R.layout.fragment_eixo_competencia) {
                     putString("competenciaDescricao", competenciaSelecionada.competenciaDescricao)
                     putString("etapaCor", etapaCor)
                 }
+
                 findNavController().navigate(R.id.listaHabilidadeFragment, bundle)
             }
-            recyclerView.layoutManager = LinearLayoutManager(requireContext())
-            recyclerView.adapter = competenciaAdapter
+
+            binding.eixoCompetenciaRv.layoutManager = LinearLayoutManager(requireContext())
+            binding.eixoCompetenciaRv.adapter = competenciaAdapter
+
             viewLifecycleOwner.lifecycleScope.launch {
                 viewModel.getResumoCompetenciasPorEtapa("EM").collect { lista ->
                     competenciaAdapter.submitList(lista)
                 }
             }
+
             return
         }
 
@@ -73,14 +80,15 @@ class EixoCompetenciaFragment : Fragment(R.layout.fragment_eixo_competencia) {
                 )
             }
         }
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        recyclerView.adapter = adapter
+
+        binding.eixoCompetenciaRv.layoutManager = LinearLayoutManager(requireContext())
+        binding.eixoCompetenciaRv.adapter = adapter
 
         val resumoFlow: Flow<List<EixoHabilidadeCount>> =
             if (serieSelecionada.isNotEmpty()) {
-                viewModel.getResumoEixosPorSerie(serieSelecionada)
+                viewModel.getResumoEixosPorSerie(habilidadeLike)
             } else {
-                viewModel.getResumoEixosPorEtapa(etapaSelecionada, habilidadeLike)
+                viewModel.getResumoEixosPorEtapa(habilidadeLike)
             }
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -88,6 +96,10 @@ class EixoCompetenciaFragment : Fragment(R.layout.fragment_eixo_competencia) {
                 adapter.submitList(lista)
             }
         }
+    }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

@@ -1,7 +1,6 @@
 package com.example.appcombncc.ui.fragment
 
 import android.os.Bundle
-import android.os.Environment
 import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -10,8 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.appcombncc.R
 import com.example.appcombncc.databinding.FragmentHomeBinding
-import java.io.File
-import java.io.FileOutputStream
+import com.example.appcombncc.util.PdfDownloadUtil
+
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
     private var _binding: FragmentHomeBinding? = null
@@ -90,25 +89,17 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun baixarPdfBncc() {
         val nomeArquivo = "BNCCComputaoCompletodiagramado.pdf"
-        val downloadsDir =
-            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-        val destino = File(downloadsDir, nomeArquivo)
-
-        try {
-            requireContext().assets.open(nomeArquivo).use { input ->
-                FileOutputStream(destino).use { output ->
-                    input.copyTo(output)
-                }
-            }
+        val resultado = PdfDownloadUtil.salvarAssetEmDownloads(requireContext(), nomeArquivo)
+        if (resultado.isSuccess) {
             Toast.makeText(
                 requireContext(),
-                "PDF salvo em: ${destino.absolutePath}",
+                "PDF salvo em: ${resultado.getOrNull()}",
                 Toast.LENGTH_LONG
             ).show()
-        } catch (e: Exception) {
+        } else {
             Toast.makeText(
                 requireContext(),
-                "Falha ao baixar PDF: ${e.message}",
+                "Falha ao baixar PDF: ${resultado.exceptionOrNull()?.message}",
                 Toast.LENGTH_LONG
             ).show()
         }
