@@ -14,7 +14,6 @@ Regras:
 - Não usar arquitetura excessivamente sofisticada sem justificativa.
 - Gerar código compatível com Android Studio.
 - Em caso de duvida solicitar confirmação.
-- Explicar decisões técnicas em /docs/decisoes-tecnicas.md.
 
 Contexto do AppBNCC:
 O app terá dados da Computação Complemento à BNCC, incluindo etapas, séries, eixos, objetos de conhecimento, conceitos e habilidades.
