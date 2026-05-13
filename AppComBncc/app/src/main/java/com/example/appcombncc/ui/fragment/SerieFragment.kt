@@ -6,22 +6,22 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.core.graphics.toColorInt
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.appcombncc.AppComBnccApplication
 import com.example.appcombncc.R
 import com.example.appcombncc.databinding.FragmentSerieBinding
 import com.example.appcombncc.viewmodel.SerieViewModel
-import com.example.appcombncc.viewmodel.SerieViewModelFactory
+import com.example.appcombncc.viewmodel.appViewModel
 import kotlinx.coroutines.launch
+import com.example.appcombncc.util.HabilidadeFiltroUtils
 
 class SerieFragment : Fragment(R.layout.fragment_serie) {
     private var _binding: FragmentSerieBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: SerieViewModel by viewModels {
-        SerieViewModelFactory(
+    private val viewModel: SerieViewModel by appViewModel {
+        SerieViewModel(
             (requireActivity().application as AppComBnccApplication).serieRepository
         )
     }
@@ -63,10 +63,11 @@ class SerieFragment : Fragment(R.layout.fragment_serie) {
                     ?.toString()
                     .orEmpty()
 
-                val habilidadeLike = gerarHabilidadeLikePorSerie(serieSelecionada)
+                val habilidadeLike = HabilidadeFiltroUtils.gerarHabilidadeLikePorSerie(serieSelecionada)
 
                 val bundle = Bundle().apply {
                     putString("serieSelecionada", serieSelecionada)
+                    putString("etapaSelecionada", "EF")
                     putString("habilidadeLike", habilidadeLike)
                     putString("etapaCor", etapaCor)
                 }
@@ -97,21 +98,6 @@ class SerieFragment : Fragment(R.layout.fragment_serie) {
             }
 
             findNavController().navigate(R.id.eixoCompetenciaFragment, bundle)
-        }
-    }
-
-    private fun gerarHabilidadeLikePorSerie(serieCodigo: String): String {
-        return when (serieCodigo) {
-            "1_ANO" -> "EF01%"
-            "2_ANO" -> "EF02%"
-            "3_ANO" -> "EF03%"
-            "4_ANO" -> "EF04%"
-            "5_ANO" -> "EF05%"
-            "6_ANO" -> "EF06%"
-            "7_ANO" -> "EF07%"
-            "8_ANO" -> "EF08%"
-            "9_ANO" -> "EF09%"
-            else -> ""
         }
     }
 

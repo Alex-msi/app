@@ -14,8 +14,17 @@ interface HabilidadeDao {
     @Query("SELECT * FROM habilidade WHERE competencia_codigo = :competenciaCodigo ORDER BY codigo")
     fun getByCompetencia(competenciaCodigo: String): Flow<List<HabilidadeEntity>>
 
-    @Query("SELECT * FROM habilidade WHERE codigo LIKE '%' || :busca || '%' OR descricao LIKE '%' || :busca || '%' ORDER BY codigo")
-    fun searchByCodigoOrDescricao(busca: String): Flow<List<HabilidadeEntity>>
+    @Query("""
+SELECT * FROM habilidade
+WHERE codigo LIKE '%' || :busca || '%'
+OR descricao LIKE '%' || :busca || '%'
+OR explicacao LIKE '%' || :busca || '%'
+OR exemplo LIKE '%' || :busca || '%'
+ORDER BY codigo
+""")
+    fun searchByCodigoOrDescricao(
+        busca: String
+    ): Flow<List<HabilidadeEntity>>
 
     @Query("SELECT * FROM habilidade WHERE codigo = :codigo LIMIT 1")
     fun getByCodigo(codigo: String): Flow<HabilidadeEntity?>

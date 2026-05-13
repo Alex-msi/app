@@ -3,7 +3,6 @@ package com.example.appcombncc.ui.fragment
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,7 +13,7 @@ import com.example.appcombncc.databinding.FragmentEixoCompetenciaBinding
 import com.example.appcombncc.ui.adapter.CompetenciaResumoAdapter
 import com.example.appcombncc.ui.adapter.EixoResumoAdapter
 import com.example.appcombncc.viewmodel.EixoCompetenciaViewModel
-import com.example.appcombncc.viewmodel.EixoCompetenciaViewModelFactory
+import com.example.appcombncc.viewmodel.appViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
@@ -22,8 +21,8 @@ class EixoCompetenciaFragment : Fragment(R.layout.fragment_eixo_competencia) {
     private var _binding: FragmentEixoCompetenciaBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: EixoCompetenciaViewModel by viewModels {
-        EixoCompetenciaViewModelFactory(
+    private val viewModel: EixoCompetenciaViewModel by appViewModel {
+        EixoCompetenciaViewModel(
             (requireActivity().application as AppComBnccApplication).eixoCompetenciaRepository
         )
     }
@@ -85,11 +84,7 @@ class EixoCompetenciaFragment : Fragment(R.layout.fragment_eixo_competencia) {
         binding.eixoCompetenciaRv.adapter = adapter
 
         val resumoFlow: Flow<List<EixoHabilidadeCount>> =
-            if (serieSelecionada.isNotEmpty()) {
-                viewModel.getResumoEixosPorSerie(habilidadeLike)
-            } else {
-                viewModel.getResumoEixosPorEtapa(habilidadeLike)
-            }
+            viewModel.getResumoEixos(habilidadeLike)
 
         viewLifecycleOwner.lifecycleScope.launch {
             resumoFlow.collect { lista ->

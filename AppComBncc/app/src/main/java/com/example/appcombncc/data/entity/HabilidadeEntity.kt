@@ -4,9 +4,16 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import androidx.room.Index
 
 @Entity(
     tableName = "habilidade",
+    indices = [
+        Index(value = ["eixo_codigo"]),
+        Index(value = ["objeto_conhecimento_id"]),
+        Index(value = ["competencia_codigo"]),
+        Index(value = ["conceito_codigo"])
+    ],
     foreignKeys = [
         ForeignKey(
             entity = EixoEntity::class,

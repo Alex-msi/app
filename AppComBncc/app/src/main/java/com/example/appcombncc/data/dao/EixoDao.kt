@@ -29,151 +29,78 @@ interface EixoDao {
     fun getBySerie(serieCodigo: String): Flow<List<EixoEntity>>
 
     @Query("""
-        SELECT 
-            e.codigo AS eixoCodigo,
-            e.descricao AS eixo,
-            COUNT(h.codigo) AS totalHabilidades
-        FROM habilidade h
-        JOIN eixo e ON e.codigo = h.eixo_codigo
-        WHERE h.codigo LIKE :habilidadeLike
-        GROUP BY e.codigo, e.descricao
-        ORDER BY totalHabilidades DESC
-    """)
-    fun getResumoEixosPorSerie(
+SELECT
+    e.codigo AS eixoCodigo,
+    e.descricao AS eixo,
+    COUNT(h.codigo) AS totalHabilidades
+FROM habilidade h
+JOIN eixo e ON e.codigo = h.eixo_codigo
+WHERE h.codigo LIKE :habilidadeLike
+GROUP BY e.codigo, e.descricao
+ORDER BY e.descricao
+""")
+    fun getResumoEixos(
         habilidadeLike: String
     ): Flow<List<EixoHabilidadeCount>>
 
     @Query("""
-        SELECT
-            e.codigo AS eixoCodigo,
-            e.descricao AS eixo,
-            COUNT(h.codigo) AS totalHabilidades
-        FROM habilidade h
-        JOIN eixo e ON e.codigo = h.eixo_codigo
-        WHERE h.codigo LIKE :habilidadeLike
-        GROUP BY e.codigo, e.descricao
-        ORDER BY totalHabilidades DESC
-    """)
-    fun getResumoEixosPorEtapa(
-        habilidadeLike: String
-    ): Flow<List<EixoHabilidadeCount>>
-
-    @Query("""
-        SELECT
-            oc.id AS objetoId,
-            oc.nome AS objeto,
-            COUNT(h.codigo) AS totalHabilidades
-        FROM habilidade h
-        JOIN eixo e ON e.codigo = h.eixo_codigo
-        JOIN objeto_conhecimento oc ON oc.id = h.objeto_conhecimento_id
-        WHERE h.codigo LIKE :habilidadeLike
-          AND e.codigo = :eixoCodigo
-        GROUP BY oc.id, oc.nome
-        ORDER BY totalHabilidades DESC
-    """)
-    fun getResumoObjetosPorSerieEixo(
+SELECT
+    oc.id AS objetoId,
+    oc.nome AS objeto,
+    COUNT(h.codigo) AS totalHabilidades
+FROM habilidade h
+JOIN objeto_conhecimento oc ON oc.id = h.objeto_conhecimento_id
+WHERE h.codigo LIKE :habilidadeLike
+AND h.eixo_codigo = :eixoCodigo
+GROUP BY oc.id, oc.nome
+ORDER BY oc.nome
+""")
+    fun getResumoObjetosPorEixo(
         habilidadeLike: String,
         eixoCodigo: String
     ): Flow<List<ObjetoHabilidadeCount>>
 
     @Query("""
-        SELECT
-            oc.id AS objetoId,
-            oc.nome AS objeto,
-            COUNT(h.codigo) AS totalHabilidades
-        FROM habilidade h
-        JOIN eixo e ON e.codigo = h.eixo_codigo
-        JOIN objeto_conhecimento oc ON oc.id = h.objeto_conhecimento_id
-        WHERE h.codigo LIKE :habilidadeLike
-          AND e.codigo = :eixoCodigo
-        GROUP BY oc.id, oc.nome
-        ORDER BY totalHabilidades DESC
-    """)
-    fun getResumoObjetosPorEtapaEixo(
-        habilidadeLike: String,
-        eixoCodigo: String
-    ): Flow<List<ObjetoHabilidadeCount>>
-
-    @Query("""
-        SELECT 
-            h.codigo AS codigo, 
-            h.descricao AS descricao
-        FROM habilidade h
-        JOIN eixo e ON e.codigo = h.eixo_codigo
-        JOIN objeto_conhecimento oc ON oc.id = h.objeto_conhecimento_id
-        WHERE h.codigo LIKE :habilidadeLike
-          AND e.codigo = :eixoCodigo
-          AND oc.id = :objetoId
-        ORDER BY h.codigo
-    """)
-    fun getHabilidadesPorSerieEixoObjeto(
+SELECT
+    h.codigo AS codigo,
+    h.descricao AS descricao
+FROM habilidade h
+WHERE h.codigo LIKE :habilidadeLike
+AND h.eixo_codigo = :eixoCodigo
+AND h.objeto_conhecimento_id = :objetoId
+ORDER BY h.codigo
+""")
+    fun getHabilidadesPorEixoObjeto(
         habilidadeLike: String,
         eixoCodigo: String,
         objetoId: Long
     ): Flow<List<HabilidadeListaItem>>
 
     @Query("""
-        SELECT 
-            h.codigo AS codigo, 
-            h.descricao AS descricao
-        FROM habilidade h
-        JOIN eixo e ON e.codigo = h.eixo_codigo
-        JOIN objeto_conhecimento oc ON oc.id = h.objeto_conhecimento_id
-        WHERE h.codigo LIKE :habilidadeLike
-          AND e.codigo = :eixoCodigo
-          AND oc.id = :objetoId
-        ORDER BY h.codigo
-    """)
-    fun getHabilidadesPorEtapaEixoObjeto(
-        habilidadeLike: String,
-        eixoCodigo: String,
-        objetoId: Long
-    ): Flow<List<HabilidadeListaItem>>
-
-    @Query("""
-        SELECT 
-            h.codigo AS codigo, 
-            h.descricao AS descricao
-        FROM habilidade h
-        JOIN eixo e ON e.codigo = h.eixo_codigo
-        WHERE h.codigo LIKE :habilidadeLike
-          AND e.codigo = :eixoCodigo
-        ORDER BY h.codigo
-    """)
-    fun getHabilidadesPorSerieEixo(
+SELECT
+    h.codigo AS codigo,
+    h.descricao AS descricao
+FROM habilidade h
+WHERE h.codigo LIKE :habilidadeLike
+AND h.eixo_codigo = :eixoCodigo
+ORDER BY h.codigo
+""")
+    fun getHabilidadesPorEixo(
         habilidadeLike: String,
         eixoCodigo: String
     ): Flow<List<HabilidadeListaItem>>
 
     @Query("""
-        SELECT 
-            h.codigo AS codigo, 
-            h.descricao AS descricao
-        FROM habilidade h
-        JOIN eixo e ON e.codigo = h.eixo_codigo
-        WHERE h.codigo LIKE :habilidadeLike
-          AND e.codigo = :eixoCodigo
-        ORDER BY h.codigo
-    """)
-    fun getHabilidadesPorEtapaEixo(
-        habilidadeLike: String,
-        eixoCodigo: String
+SELECT
+    h.codigo AS codigo,
+    h.descricao AS descricao
+FROM habilidade h
+WHERE h.competencia_codigo = :competenciaCodigo
+ORDER BY h.codigo
+""")
+    fun getHabilidadesPorCompetencia(
+        competenciaCodigo: String
     ): Flow<List<HabilidadeListaItem>>
-
-    @Query("""
-        SELECT
-            ce.codigo AS competenciaCodigo,
-            ce.descricao AS competenciaDescricao,
-            h.codigo AS habilidadeCodigo,
-            h.descricao AS habilidadeDescricao
-        FROM competencia_especifica ce
-        JOIN habilidade h ON h.competencia_codigo = ce.codigo
-        WHERE ce.etapa_codigo = :etapaCodigo
-        ORDER BY ce.codigo, h.codigo
-    """)
-    fun getHabilidadesPorCompetenciaEtapa(
-        etapaCodigo: String
-    ): Flow<List<CompetenciaHabilidadeItem>>
 
     @Query("""
         SELECT

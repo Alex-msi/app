@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.graphics.toColorInt
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,19 +13,17 @@ import com.example.appcombncc.data.model.ObjetoHabilidadeCount
 import com.example.appcombncc.databinding.FragmentObjetoConceitoBinding
 import com.example.appcombncc.ui.adapter.ObjetoResumoAdapter
 import com.example.appcombncc.viewmodel.EixoCompetenciaViewModel
-import com.example.appcombncc.viewmodel.EixoCompetenciaViewModelFactory
+import com.example.appcombncc.viewmodel.appViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 class ObjetoConceitoFragment : Fragment(R.layout.fragment_objeto_conceito) {
-
     private var _binding: FragmentObjetoConceitoBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: EixoCompetenciaViewModel by viewModels {
-        EixoCompetenciaViewModelFactory(
-            (requireActivity().application as AppComBnccApplication)
-                .eixoCompetenciaRepository
+    private val viewModel: EixoCompetenciaViewModel by appViewModel {
+        EixoCompetenciaViewModel(
+            (requireActivity().application as AppComBnccApplication).eixoCompetenciaRepository
         )
     }
 
@@ -84,20 +81,10 @@ class ObjetoConceitoFragment : Fragment(R.layout.fragment_objeto_conceito) {
         binding.objetoConceitoRv.adapter = adapter
 
         val resumoFlow: Flow<List<ObjetoHabilidadeCount>> =
-            if (serieSelecionada.isNotEmpty()) {
-
-                viewModel.getResumoObjetosPorSerieEixo(
-                    habilidadeLike,
-                    eixoSelecionado
-                )
-
-            } else {
-
-                viewModel.getResumoObjetosPorEtapaEixo(
-                    habilidadeLike,
-                    eixoSelecionado
-                )
-            }
+            viewModel.getResumoObjetosPorEixo(
+                habilidadeLike,
+                eixoSelecionado
+            )
 
         viewLifecycleOwner.lifecycleScope.launch {
             resumoFlow.collect { lista ->

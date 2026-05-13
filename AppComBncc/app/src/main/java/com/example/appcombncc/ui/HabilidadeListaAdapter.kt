@@ -1,12 +1,10 @@
 package com.example.appcombncc.ui.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.appcombncc.R
 import com.example.appcombncc.data.model.HabilidadeListaItem
+import com.example.appcombncc.databinding.ItemSimpleTextBinding
 
 class HabilidadeListaAdapter(
     private val onItemClick: (HabilidadeListaItem) -> Unit
@@ -21,9 +19,8 @@ class HabilidadeListaAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HabilidadeViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_simple_text, parent, false)
-        return HabilidadeViewHolder(view, onItemClick)
+        val binding = ItemSimpleTextBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return HabilidadeViewHolder(binding, onItemClick)
     }
 
     override fun onBindViewHolder(holder: HabilidadeViewHolder, position: Int) {
@@ -33,14 +30,13 @@ class HabilidadeListaAdapter(
     override fun getItemCount(): Int = itens.size
 
     class HabilidadeViewHolder(
-        itemView: View,
+        private val binding: ItemSimpleTextBinding,
         private val onItemClick: (HabilidadeListaItem) -> Unit
-    ) : RecyclerView.ViewHolder(itemView) {
-        private val textView: TextView = itemView.findViewById(R.id.simpleItemTv)
+    ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: HabilidadeListaItem) {
-            textView.text = "${item.codigo} - ${item.descricao}"
-            itemView.setOnClickListener { onItemClick(item) }
+            binding.simpleItemTv.text = "${item.codigo} - ${item.descricao}"
+            binding.root.setOnClickListener { onItemClick(item) }
         }
     }
 }

@@ -4,21 +4,20 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.graphics.toColorInt
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.appcombncc.AppComBnccApplication
 import com.example.appcombncc.R
 import com.example.appcombncc.databinding.FragmentHabilidadesBinding
 import com.example.appcombncc.viewmodel.HabilidadesViewModel
-import com.example.appcombncc.viewmodel.HabilidadesViewModelFactory
+import com.example.appcombncc.viewmodel.appViewModel
 import kotlinx.coroutines.launch
 
 class HabilidadesFragment : Fragment(R.layout.fragment_habilidades) {
     private var _binding: FragmentHabilidadesBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: HabilidadesViewModel by viewModels {
-        HabilidadesViewModelFactory(
+    private val viewModel: HabilidadesViewModel by appViewModel {
+        HabilidadesViewModel(
             (requireActivity().application as AppComBnccApplication).habilidadeRepository
         )
     }

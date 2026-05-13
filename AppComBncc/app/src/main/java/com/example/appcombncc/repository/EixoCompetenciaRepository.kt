@@ -10,46 +10,30 @@ class EixoCompetenciaRepository(
     fun getEixosBySerie(serieCodigo: String) =
         eixoDao.getBySerie(serieCodigo)
 
-    fun getResumoEixosPorSerie(habilidadeLike: String) =
-        eixoDao.getResumoEixosPorSerie(habilidadeLike)
+    fun getResumoEixos(habilidadeLike: String) =
+        eixoDao.getResumoEixos(habilidadeLike)
 
-    fun getResumoEixosPorEtapa(habilidadeLike: String) =
-        eixoDao.getResumoEixosPorEtapa(habilidadeLike)
+    fun getResumoObjetosPorEixo(habilidadeLike: String, eixoCodigo: String) =
+        eixoDao.getResumoObjetosPorEixo(habilidadeLike, eixoCodigo)
 
-    fun getResumoObjetosPorSerieEixo(habilidadeLike: String, eixoCodigo: String) =
-        eixoDao.getResumoObjetosPorSerieEixo(habilidadeLike, eixoCodigo)
-
-    fun getResumoObjetosPorEtapaEixo(habilidadeLike: String, eixoCodigo: String) =
-        eixoDao.getResumoObjetosPorEtapaEixo(habilidadeLike, eixoCodigo)
-
-    fun getHabilidadesPorSerieEixoObjeto(
+    fun getHabilidadesPorEixoObjeto(
         habilidadeLike: String,
         eixoCodigo: String,
         objetoId: Long
-    ) = eixoDao.getHabilidadesPorSerieEixoObjeto(
+    ) = eixoDao.getHabilidadesPorEixoObjeto(
         habilidadeLike,
         eixoCodigo,
         objetoId
     )
 
-    fun getHabilidadesPorEtapaEixoObjeto(
+    fun getHabilidadesPorEixo(
         habilidadeLike: String,
-        eixoCodigo: String,
-        objetoId: Long
-    ) = eixoDao.getHabilidadesPorEtapaEixoObjeto(
-        habilidadeLike,
-        eixoCodigo,
-        objetoId
-    )
+        eixoCodigo: String
+    ) = eixoDao.getHabilidadesPorEixo(habilidadeLike, eixoCodigo)
 
-    fun getHabilidadesPorSerieEixo(habilidadeLike: String, eixoCodigo: String) =
-        eixoDao.getHabilidadesPorSerieEixo(habilidadeLike, eixoCodigo)
-
-    fun getHabilidadesPorEtapaEixo(habilidadeLike: String, eixoCodigo: String) =
-        eixoDao.getHabilidadesPorEtapaEixo(habilidadeLike, eixoCodigo)
-
-    fun getHabilidadesPorCompetenciaEtapa(etapaCodigo: String) =
-        eixoDao.getHabilidadesPorCompetenciaEtapa(etapaCodigo)
+    fun getHabilidadesPorCompetencia(
+        competenciaCodigo: String
+    ) = eixoDao.getHabilidadesPorCompetencia(competenciaCodigo)
 
     fun getResumoCompetenciasPorEtapa(etapaCodigo: String) =
         eixoDao.getResumoCompetenciasPorEtapa(etapaCodigo)

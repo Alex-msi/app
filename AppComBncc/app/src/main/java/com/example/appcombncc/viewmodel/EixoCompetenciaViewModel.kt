@@ -11,69 +11,31 @@ class EixoCompetenciaViewModel(
         serieCodigo: String
     ) = repository.getEixosBySerie(serieCodigo)
 
-    fun getResumoEixosPorSerie(
-        habilidadeLike: String
-    ) = repository.getResumoEixosPorSerie(habilidadeLike)
+    fun getResumoEixos(habilidadeLike: String) =
+        repository.getResumoEixos(habilidadeLike)
 
-    fun getResumoEixosPorEtapa(
-        habilidadeLike: String
-    ) = repository.getResumoEixosPorEtapa(habilidadeLike)
-
-    fun getResumoObjetosPorSerieEixo(
+    fun getResumoObjetosPorEixo(
         habilidadeLike: String,
         eixoCodigo: String
-    ) = repository.getResumoObjetosPorSerieEixo(
-        habilidadeLike,
-        eixoCodigo
-    )
+    ) = repository.getResumoObjetosPorEixo(habilidadeLike, eixoCodigo)
 
-    fun getResumoObjetosPorEtapaEixo(
-        habilidadeLike: String,
-        eixoCodigo: String
-    ) = repository.getResumoObjetosPorEtapaEixo(
-        habilidadeLike,
-        eixoCodigo
-    )
-
-    fun getHabilidadesPorSerieEixoObjeto(
+    fun getHabilidadesPorEixoObjeto(
         habilidadeLike: String,
         eixoCodigo: String,
         objetoId: Long
-    ) = repository.getHabilidadesPorSerieEixoObjeto(
+    ) = repository.getHabilidadesPorEixoObjeto(
         habilidadeLike,
         eixoCodigo,
         objetoId
     )
 
-    fun getHabilidadesPorEtapaEixoObjeto(
-        habilidadeLike: String,
-        eixoCodigo: String,
-        objetoId: Long
-    ) = repository.getHabilidadesPorEtapaEixoObjeto(
-        habilidadeLike,
-        eixoCodigo,
-        objetoId
-    )
-
-    fun getHabilidadesPorSerieEixo(
+    fun getHabilidadesPorEixo(
         habilidadeLike: String,
         eixoCodigo: String
-    ) = repository.getHabilidadesPorSerieEixo(
-        habilidadeLike,
-        eixoCodigo
-    )
+    ) = repository.getHabilidadesPorEixo(habilidadeLike, eixoCodigo)
 
-    fun getHabilidadesPorEtapaEixo(
-        habilidadeLike: String,
-        eixoCodigo: String
-    ) = repository.getHabilidadesPorEtapaEixo(
-        habilidadeLike,
-        eixoCodigo
-    )
-
-    fun getHabilidadesPorCompetenciaEtapa(
-        etapaCodigo: String
-    ) = repository.getHabilidadesPorCompetenciaEtapa(etapaCodigo)
+    fun getHabilidadesPorCompetencia(competenciaCodigo: String) =
+        repository.getHabilidadesPorCompetencia(competenciaCodigo)
 
     fun getResumoCompetenciasPorEtapa(
         etapaCodigo: String

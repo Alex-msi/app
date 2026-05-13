@@ -3,20 +3,17 @@ package com.example.appcombncc.ui.fragment
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.appcombncc.AppComBnccApplication
 import com.example.appcombncc.R
-import com.example.appcombncc.data.model.CompetenciaHabilidadeItem
 import com.example.appcombncc.data.model.HabilidadeListaItem
 import com.example.appcombncc.databinding.FragmentListaHabilidadeBinding
 import com.example.appcombncc.ui.adapter.HabilidadeListaAdapter
 import com.example.appcombncc.viewmodel.EixoCompetenciaViewModel
-import com.example.appcombncc.viewmodel.EixoCompetenciaViewModelFactory
 import com.example.appcombncc.viewmodel.HabilidadesViewModel
-import com.example.appcombncc.viewmodel.HabilidadesViewModelFactory
+import com.example.appcombncc.viewmodel.appViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
@@ -25,17 +22,15 @@ class ListaHabilidadeFragment : Fragment(R.layout.fragment_lista_habilidade) {
     private var _binding: FragmentListaHabilidadeBinding? = null
     private val binding get() = _binding!!
 
-    private val habilidadesViewModel: HabilidadesViewModel by viewModels {
-        HabilidadesViewModelFactory(
-            (requireActivity().application as AppComBnccApplication)
-                .habilidadeRepository
+    private val habilidadesViewModel: HabilidadesViewModel by appViewModel {
+        HabilidadesViewModel(
+            (requireActivity().application as AppComBnccApplication).habilidadeRepository
         )
     }
 
-    private val viewModel: EixoCompetenciaViewModel by viewModels {
-        EixoCompetenciaViewModelFactory(
-            (requireActivity().application as AppComBnccApplication)
-                .eixoCompetenciaRepository
+    private val viewModel: EixoCompetenciaViewModel by appViewModel {
+        EixoCompetenciaViewModel(
+            (requireActivity().application as AppComBnccApplication).eixoCompetenciaRepository
         )
     }
 
@@ -44,44 +39,17 @@ class ListaHabilidadeFragment : Fragment(R.layout.fragment_lista_habilidade) {
 
         _binding = FragmentListaHabilidadeBinding.bind(view)
 
-        val serieSelecionada = arguments
-            ?.getString("serieSelecionada")
-            .orEmpty()
+        val serieSelecionada = arguments?.getString("serieSelecionada").orEmpty()
+        val etapaSelecionada = arguments?.getString("etapaSelecionada").orEmpty()
+        val habilidadeLike = arguments?.getString("habilidadeLike").orEmpty()
+        val eixoSelecionado = arguments?.getString("eixoSelecionado").orEmpty()
+        val objetoSelecionadoId = arguments?.getLong("objetoSelecionadoId", -1L) ?: -1L
+        val competenciaSelecionada = arguments?.getString("competenciaSelecionada").orEmpty()
+        val competenciaDescricao = arguments?.getString("competenciaDescricao").orEmpty()
+        val etapaCor = arguments?.getString("etapaCor").orEmpty()
+        val buscaTexto = arguments?.getString("buscaTexto").orEmpty()
 
-        val etapaSelecionada = arguments
-            ?.getString("etapaSelecionada")
-            .orEmpty()
-
-        val habilidadeLike = arguments
-            ?.getString("habilidadeLike")
-            .orEmpty()
-
-        val eixoSelecionado = arguments
-            ?.getString("eixoSelecionado")
-            .orEmpty()
-
-        val objetoSelecionadoId = arguments
-            ?.getLong("objetoSelecionadoId", -1L)
-            ?: -1L
-
-        val competenciaSelecionada = arguments
-            ?.getString("competenciaSelecionada")
-            .orEmpty()
-
-        val competenciaDescricao = arguments
-            ?.getString("competenciaDescricao")
-            .orEmpty()
-
-        val etapaCor = arguments
-            ?.getString("etapaCor")
-            .orEmpty()
-
-        val buscaTexto = arguments
-            ?.getString("buscaTexto")
-            .orEmpty()
-
-        binding.listaHabilidadeRv.layoutManager =
-            LinearLayoutManager(requireContext())
+        binding.listaHabilidadeRv.layoutManager = LinearLayoutManager(requireContext())
 
         val adapter = HabilidadeListaAdapter { habilidade ->
 
@@ -103,29 +71,22 @@ class ListaHabilidadeFragment : Fragment(R.layout.fragment_lista_habilidade) {
 
         if (buscaTexto.isNotEmpty()) {
 
-            binding.listaHabilidadesTituloTv.text =
-                "Resultados da busca"
-
-            binding.competenciaDescricaoTv.visibility =
-                View.VISIBLE
-
-            binding.competenciaDescricaoTv.text =
-                "Busca por: $buscaTexto"
+            binding.listaHabilidadesTituloTv.text = "Resultados da busca"
+            binding.competenciaDescricaoTv.visibility = View.VISIBLE
+            binding.competenciaDescricaoTv.text = "Busca por: $buscaTexto"
 
             viewLifecycleOwner.lifecycleScope.launch {
+                habilidadesViewModel.search(buscaTexto).collect { listaBusca ->
 
-                habilidadesViewModel.search(buscaTexto)
-                    .collect { listaBusca ->
-
-                        val itensBusca = listaBusca.map {
-                            HabilidadeListaItem(
-                                codigo = it.codigo,
-                                descricao = it.descricao
-                            )
-                        }
-
-                        adapter.submitList(itensBusca)
+                    val itensBusca = listaBusca.map {
+                        HabilidadeListaItem(
+                            codigo = it.codigo,
+                            descricao = it.descricao
+                        )
                     }
+
+                    adapter.submitList(itensBusca)
+                }
             }
 
             return
@@ -133,95 +94,44 @@ class ListaHabilidadeFragment : Fragment(R.layout.fragment_lista_habilidade) {
 
         if (etapaSelecionada == "EM") {
 
+            binding.listaHabilidadesTituloTv.text =
+                "Lista de Habilidades da Competência:"
+
+            binding.listaHabilidadesTituloTv.visibility = View.VISIBLE
+            binding.competenciaDescricaoTv.visibility = View.VISIBLE
+            binding.competenciaDescricaoTv.text = competenciaDescricao
+
             viewLifecycleOwner.lifecycleScope.launch {
-
-                val competenciasFlow:
-                        Flow<List<CompetenciaHabilidadeItem>> =
-                    viewModel.getHabilidadesPorCompetenciaEtapa("EM")
-
-                competenciasFlow.collect { lista ->
-
-                    val habilidadesFiltradas = lista
-                        .filter {
-                            it.competenciaCodigo ==
-                                    competenciaSelecionada
-                        }
-                        .map {
-                            HabilidadeListaItem(
-                                codigo = it.habilidadeCodigo,
-                                descricao = it.habilidadeDescricao
-                            )
-                        }
-
-                    binding.listaHabilidadesTituloTv.text =
-                        "Lista de Habilidades da Competência:"
-
-                    binding.listaHabilidadesTituloTv.visibility =
-                        View.VISIBLE
-
-                    binding.competenciaDescricaoTv.visibility =
-                        View.VISIBLE
-
-                    binding.competenciaDescricaoTv.text =
-                        competenciaDescricao
-
-                    adapter.submitList(habilidadesFiltradas)
+                viewModel.getHabilidadesPorCompetencia(
+                    competenciaSelecionada
+                ).collect { lista ->
+                    adapter.submitList(lista)
                 }
             }
 
-        } else {
+            return
+        }
 
-            binding.listaHabilidadesTituloTv.text =
-                "Lista de Habilidades"
+        binding.listaHabilidadesTituloTv.text = "Lista de Habilidades"
+        binding.competenciaDescricaoTv.visibility = View.GONE
 
-            binding.competenciaDescricaoTv.visibility =
-                View.GONE
+        val habilidadesFlow: Flow<List<HabilidadeListaItem>> =
+            if (objetoSelecionadoId > 0L) {
+                viewModel.getHabilidadesPorEixoObjeto(
+                    habilidadeLike,
+                    eixoSelecionado,
+                    objetoSelecionadoId
+                )
+            } else {
+                viewModel.getHabilidadesPorEixo(
+                    habilidadeLike,
+                    eixoSelecionado
+                )
+            }
 
-            val habilidadesFlow:
-                    Flow<List<HabilidadeListaItem>> =
-
-                if (objetoSelecionadoId > 0L) {
-
-                    if (serieSelecionada.isNotEmpty()) {
-
-                        viewModel.getHabilidadesPorSerieEixoObjeto(
-                            habilidadeLike,
-                            eixoSelecionado,
-                            objetoSelecionadoId
-                        )
-
-                    } else {
-
-                        viewModel.getHabilidadesPorEtapaEixoObjeto(
-                            habilidadeLike,
-                            eixoSelecionado,
-                            objetoSelecionadoId
-                        )
-                    }
-
-                } else {
-
-                    if (serieSelecionada.isNotEmpty()) {
-
-                        viewModel.getHabilidadesPorSerieEixo(
-                            habilidadeLike,
-                            eixoSelecionado
-                        )
-
-                    } else {
-
-                        viewModel.getHabilidadesPorEtapaEixo(
-                            habilidadeLike,
-                            eixoSelecionado
-                        )
-                    }
-                }
-
-            viewLifecycleOwner.lifecycleScope.launch {
-
-                habilidadesFlow.collect { lista ->
-                    adapter.submitList(lista)
-                }
+        viewLifecycleOwner.lifecycleScope.launch {
+            habilidadesFlow.collect { lista ->
+                adapter.submitList(lista)
             }
         }
     }

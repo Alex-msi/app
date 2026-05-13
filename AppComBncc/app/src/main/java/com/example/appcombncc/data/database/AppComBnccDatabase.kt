@@ -49,6 +49,7 @@ abstract class AppComBnccDatabase : RoomDatabase() {
                     "bncc_computacao.db"
                 )
                     .createFromAsset("bncc_computacao.db")
+                    .fallbackToDestructiveMigration(true) // retirar depois apaenas para nao precisar anterar a versao do bd
                     .build()
                 INSTANCE = instance
                 instance
