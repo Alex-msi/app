@@ -4,7 +4,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="etapa_ei">#2E7D32</color>
     <color name="etapa_ef">#1976D2</color>
-    <color name="etapa_em">#FBC02D</color>
+    <color name="etapa_em">#fec200</color>
 
     <color name="bg_white">#FFFFFF</color>
     <color name="text_secondary_gray">#9E9E9E</color>
@@ -13,6 +13,7 @@
     <color name="mec_blue_dark">#0D47A1</color>
     <color name="mec_blue">#1565C0</color>
     <color name="mec_green">#2E7D32</color>
+    <color name="mec_gray">#9E9E9E</color>
     <color name="surface_light">#F5F5F5</color>
     <color name="text_primary_soft">#212121</color>
     <color name="text_secondary_soft">#616161</color>

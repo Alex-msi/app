@@ -13,10 +13,11 @@
         android:layout_height="wrap_content"
         android:backgroundTint="@color/mec_blue_dark"
         android:minHeight="56dp"
-        app:titleTextColor="@android:color/white"
+        app:titleTextColor="@android:color/black"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:menu="@menu/top_app_bar_menu" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/navHostFragment"

@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.appcombncc.data.model.HabilidadeListaItem
-import com.example.appcombncc.databinding.ItemSimpleTextBinding
+import com.example.appcombncc.databinding.ItemHabilidadeSimpleTextBinding
 
 class HabilidadeListaAdapter(
     private val onItemClick: (HabilidadeListaItem) -> Unit
@@ -19,7 +19,7 @@ class HabilidadeListaAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HabilidadeViewHolder {
-        val binding = ItemSimpleTextBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemHabilidadeSimpleTextBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return HabilidadeViewHolder(binding, onItemClick)
     }
 
@@ -30,7 +30,7 @@ class HabilidadeListaAdapter(
     override fun getItemCount(): Int = itens.size
 
     class HabilidadeViewHolder(
-        private val binding: ItemSimpleTextBinding,
+        private val binding: ItemHabilidadeSimpleTextBinding,
         private val onItemClick: (HabilidadeListaItem) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
 

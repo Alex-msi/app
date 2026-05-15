@@ -82,7 +82,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_16"
             android:minHeight="@dimen/button_min_height"
-            android:text="Criar prática (evolução)"
+            android:text="Criar prática"
             android:textSize="@dimen/text_body" />
 
         <ImageButton

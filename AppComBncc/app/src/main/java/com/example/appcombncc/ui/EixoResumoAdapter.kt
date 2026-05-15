@@ -4,7 +4,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.appcombncc.data.model.EixoHabilidadeCount
-import com.example.appcombncc.databinding.ItemEixoResumoBinding
+import com.example.appcombncc.databinding.ItemEixoCompetenciaResumoBinding
+
 
 class EixoResumoAdapter(
     private val onItemClick: (EixoHabilidadeCount) -> Unit
@@ -18,7 +19,7 @@ class EixoResumoAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EixoResumoViewHolder {
-        val binding = ItemEixoResumoBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemEixoCompetenciaResumoBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return EixoResumoViewHolder(binding, onItemClick)
     }
 
@@ -29,7 +30,7 @@ class EixoResumoAdapter(
     override fun getItemCount(): Int = itens.size
 
     class EixoResumoViewHolder(
-        private val binding: ItemEixoResumoBinding,
+        private val binding: ItemEixoCompetenciaResumoBinding,
         private val onItemClick: (EixoHabilidadeCount) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
 

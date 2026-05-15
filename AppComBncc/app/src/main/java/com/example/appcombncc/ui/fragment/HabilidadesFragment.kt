@@ -5,6 +5,7 @@ import android.view.View
 import androidx.core.graphics.toColorInt
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.example.appcombncc.AppComBnccApplication
 import com.example.appcombncc.R
 import com.example.appcombncc.databinding.FragmentHabilidadesBinding
@@ -69,6 +70,17 @@ class HabilidadesFragment : Fragment(R.layout.fragment_habilidades) {
 
         binding.expandirExemploBt.setOnClickListener {
             binding.exemploTv.visibility = if (binding.exemploTv.visibility == View.VISIBLE) View.GONE else View.VISIBLE
+        }
+
+        binding.criarPraticaBt.setOnClickListener {
+            val bundle = Bundle().apply {
+                putString("habilidadeCodigo", codigo)
+                putString("habilidadeDescricao", descricao)
+                putString("serieSelecionada", resolverSerieEtapa(serieSelecionada, etapaSelecionada, codigo))
+                putString("etapaCor", etapaCor)
+                putString("etapaSelecionada", etapaSelecionada)
+            }
+            findNavController().navigate(R.id.action_habilidadesFragment_to_praticaFragment, bundle)
         }
 
         binding.favoritarBt.setOnClickListener {

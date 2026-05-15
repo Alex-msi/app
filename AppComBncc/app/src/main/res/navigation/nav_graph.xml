@@ -7,17 +7,17 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.appcombncc.ui.fragment.HomeFragment"
-        android:label="Home" />
+        android:label="" />
 
     <fragment
         android:id="@+id/serieFragment"
         android:name="com.example.appcombncc.ui.fragment.SerieFragment"
-        android:label="Séries" />
+        android:label="Voltar" />
 
     <fragment
         android:id="@+id/eixoCompetenciaFragment"
         android:name="com.example.appcombncc.ui.fragment.EixoCompetenciaFragment"
-        android:label="Eixos/Competências">
+        android:label="Voltar">
 
         <action
             android:id="@+id/action_eixoCompetenciaFragment_to_objetoConceitoFragment"
@@ -27,7 +27,7 @@
     <fragment
         android:id="@+id/objetoConceitoFragment"
         android:name="com.example.appcombncc.ui.fragment.ObjetoConceitoFragment"
-        android:label="Objetos/Conceitos">
+        android:label="Voltar">
 
         <action
             android:id="@+id/action_objetoConceitoFragment_to_listaHabilidadeFragment"
@@ -37,7 +37,7 @@
     <fragment
         android:id="@+id/listaHabilidadeFragment"
         android:name="com.example.appcombncc.ui.fragment.ListaHabilidadeFragment"
-        android:label="Lista de Habilidades">
+        android:label="Voltar">
 
         <action
             android:id="@+id/action_listaHabilidadeFragment_to_habilidadesFragment"
@@ -47,5 +47,20 @@
     <fragment
         android:id="@+id/habilidadesFragment"
         android:name="com.example.appcombncc.ui.fragment.HabilidadesFragment"
-        android:label="Habilidades" />
+        android:label="Voltar">
+
+        <action
+            android:id="@+id/action_habilidadesFragment_to_praticaFragment"
+            app:destination="@id/praticaFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/praticaFragment"
+        android:name="com.example.appcombncc.ui.fragment.PraticaFragment"
+        android:label="Voltar" />
+
+    <fragment
+        android:id="@+id/listaAutenticadaFragment"
+        android:name="com.example.appcombncc.ui.fragment.ListaAutenticadaFragment"
+        android:label="Lista autenticada" />
 </navigation>

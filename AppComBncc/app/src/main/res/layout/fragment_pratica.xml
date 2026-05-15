@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/surface_light"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/space_16">
+
+        <TextView
+            android:id="@+id/tituloTelaTv"
+            style="@style/AppTitleText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingVertical="@dimen/space_8"
+            android:text="Prática Pedagógica"
+            android:textColor="@color/white"
+            android:background="@color/mec_blue" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_12"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:padding="@dimen/space_16">
+
+            <TextView
+                android:id="@+id/habilidadeTv"
+                style="@style/BodyText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Habilidade: -"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/descricaoTv"
+                style="@style/BodyText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_8"
+                android:text="Descrição: -" />
+
+            <TextView
+                android:id="@+id/serieTv"
+                style="@style/BodyText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_8"
+                android:text="Série: -" />
+
+            <TextView
+                style="@style/BodyText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_12"
+                android:text="Tempo:" />
+
+            <Spinner
+                android:id="@+id/tempoSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_8" />
+
+            <TextView
+                style="@style/BodyText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_12"
+                android:text="Tipo:" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_8"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/desplugadaCb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="Desplugada" />
+
+                <CheckBox
+                    android:id="@+id/plugadaCb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_16"
+                    android:text="Plugada" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_12"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/gerarComIaBt"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:minHeight="@dimen/button_min_height"
+                    android:text="Gerar"
+                    android:textAllCaps="true" />
+
+<!--                <Button-->
+<!--                    android:id="@+id/gerarSemIaBt"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="@dimen/space_12"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:minHeight="@dimen/button_min_height"-->
+<!--                    android:text="Criar sem IA"-->
+<!--                    android:textAllCaps="true" />-->
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_12"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:padding="@dimen/space_16">
+
+            <EditText
+                android:id="@+id/tituloPraticaEt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Título da prática" />
+
+            <EditText
+                android:id="@+id/objetivoEt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_12"
+                android:gravity="top|start"
+                android:hint="Objetivo"
+                android:minHeight="80dp" />
+
+            <EditText
+                android:id="@+id/materiaisEt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_12"
+                android:hint="Materiais" />
+
+            <EditText
+                android:id="@+id/introducaoEt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_12"
+                android:hint="Introdução" />
+
+            <EditText
+                android:id="@+id/desenvolvimentoEt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_12"
+                android:hint="Desenvolvimento" />
+
+            <EditText
+                android:id="@+id/praticaEt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_12"
+                android:hint="Prática" />
+
+            <EditText
+                android:id="@+id/encerramentoEt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_12"
+                android:hint="Encerramento" />
+
+            <EditText
+                android:id="@+id/statusEt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_12"
+                android:hint="Status" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_16"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/editarBt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/button_min_height"
+                android:text="Editar" />
+
+            <Button
+                android:id="@+id/salvarBt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_8"
+                android:minHeight="@dimen/button_min_height"
+                android:text="Salvar" />
+
+            <Button
+                android:id="@+id/visualizarBt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_8"
+                android:minHeight="@dimen/button_min_height"
+                android:text="Visualizar" />
+
+            <Button
+                android:id="@+id/removerBt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_8"
+                android:minHeight="@dimen/button_min_height"
+                android:text="Remover" />
+
+            <Button
+                android:id="@+id/sairBt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_8"
+                android:minHeight="@dimen/button_min_height"
+                android:text="Sair" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>
