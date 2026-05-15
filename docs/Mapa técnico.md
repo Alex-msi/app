@@ -1,6 +1,6 @@
 # Mapa técnico atual — AppComBncc
 
-Este documento registra o estado atual do projeto `AppComBncc`, incluindo arquitetura, navegação, autenticação Google, política de sessão local e telas de prática/autenticada já implementadas.
+Este documento registra o estado atual do projeto `AppComBncc`, incluindo arquitetura, navegação, política visual e os fluxos implementados no app.
 
 ## 1) Estrutura geral (módulo app)
 
@@ -15,6 +15,7 @@ app/src/main/java/com/example/appcombncc
 ├── repository
 ├── ui
 │   ├── activity
+│   ├── adapter
 │   └── fragment
 ├── util
 └── viewmodel
@@ -32,12 +33,12 @@ app/src/main/java/com/example/appcombncc
 #### `data/entity`
 Entidades persistidas no Room:
 - `EtapaEntity`
-- `SerieEntity`
+- `SerieEntity` (quando presente no mapeamento atual do banco)
 - `EixoEntity`
 - `CompetenciaEspecificaEntity`
 - `HabilidadeEntity`
-- `ObjetoConhecimentoEntity`
-- `ConceitoHabilidadeEntity`
+- `ObjetoConhecimentoEntity` (quando presente no mapeamento atual do banco)
+- `ConceitoHabilidadeEntity` (quando presente no mapeamento atual do banco)
 - `SerieEixoEntity`
 
 #### `data/dao`
@@ -60,7 +61,7 @@ Modelos auxiliares para projeções e UI:
 - `CompetenciaResumoItem`
 - `CompetenciaHabilidadeItem`
 - `HabilidadeListaItem`
-- `PraticaUsuarioItem`
+- `PraticaUsuarioItem` (manter quando utilizado em evoluções)
 
 ### Repository
 Camada de orquestração de dados entre DAO e ViewModel:
@@ -81,18 +82,17 @@ Fábricas e suporte:
 - `SerieViewModelFactory`
 - `EixoCompetenciaViewModelFactory`
 - `HabilidadesViewModelFactory`
-- `AppViewModelFactory`
-- `ViewModelHelpers`
+- `AppViewModelFactory` (manter quando utilizado no projeto)
+- `ViewModelHelpers` (manter quando utilizado no projeto)
 
 ### UI
 
 #### `ui/activity`
 - `MainActivity`
   - Host da navegação (`NavHostFragment`).
-  - Integração da TopAppBar com `NavController`.
-  - Menu superior com ações `Home` e `Login`.
-  - Fluxo de autenticação Google (`GoogleSignInClient`).
-  - Regra de sessão local no startup (preserva Home como entrada pública).
+  - Integração da `MaterialToolbar` com `NavController`.
+  - Suporte a `navigateUp()` na toolbar para retorno entre telas.
+  - Home como destino de topo.
 
 #### `ui/fragment`
 Telas existentes:
@@ -102,8 +102,8 @@ Telas existentes:
 - `ObjetoConceitoFragment`
 - `ListaHabilidadeFragment`
 - `HabilidadesFragment`
-- `PraticaFragment`
-- `ListaAutenticadaFragment`
+- `PraticaFragment` (manter quando disponível no fluxo do projeto)
+- `ListaAutenticadaFragment` (manter quando disponível no fluxo do projeto)
 
 #### `ui` (adapters)
 Adapters de RecyclerView e listas:
@@ -112,11 +112,12 @@ Adapters de RecyclerView e listas:
 - `CompetenciaResumoAdapter`
 - `ObjetoResumoAdapter`
 - `HabilidadeListaAdapter`
-- `PraticaUsuarioAdapter`
+- `PraticaUsuarioAdapter` (manter quando presente)
 
 ### Util
-- `HabilidadeFiltroUtils`
-- `PdfDownloadUtil`
+- `HabilidadeFiltroUtils` (manter quando presente)
+- `PdfDownloadUtil` (quando utilizado) / lógica de download no `HomeFragment`
+
 - `SessionManager`
   - Persistência local de sessão em `SharedPreferences`.
   - Campos atuais de sessão:
@@ -138,15 +139,25 @@ Fluxo principal registrado no `nav_graph`:
 4. `objetoConceitoFragment`
 5. `listaHabilidadeFragment`
 6. `habilidadesFragment`
-7. `praticaFragment`
+7. `praticaFragment` (quando aplicável)
 
 Fluxo autenticado:
-- `listaAutenticadaFragment` (aberta a partir do login Google na toolbar).
+- `listaAutenticadaFragment` (quando aplicável na versão com autenticação).
+
+### Observações de fluxo implementadas neste ciclo
+- Fluxo **EM**:
+  - Em `EixoCompetenciaFragment`, exibição de competências com total de habilidades.
+  - Item de competência com quebra de linha no total (melhor legibilidade).
+  - Ao clicar em competência, navega para `ListaHabilidadeFragment` com contexto da competência.
+- Em `ListaHabilidadeFragment` (EM):
+  - título contextual: **“Lista de Habilidades da Competência:”**;
+  - label **“Competência”** acima da descrição selecionada;
+  - listagem de habilidades filtradas pela competência selecionada.
 
 ## 4) Autenticação e sessão (estado atual)
 
 ### Autenticação
-- Login Google via `play-services-auth`.
+- Login Google via `play-services-auth` (quando esta feature está habilitada na branch/versão).
 - Resultado tratado em `MainActivity` com feedback por `Toast`.
 
 ### Sessão local
@@ -170,6 +181,24 @@ Tela dividida em 2 partes:
 
 ## 6) Recursos visuais e layouts relevantes
 
+- `activity_main.xml` com `MaterialToolbar`.
+- Home com layout revisado, seções claras e ações:
+  - busca de habilidade (`buscaHabilidadeEt` + `procurarTv`);
+  - botão `Favoritos`;
+  - botão `PDF Computação Complemento a BNCC`.
+- Itens de lista padronizados com cards:
+  - `item_simple_text.xml`
+  - `item_eixo_resumo.xml`
+  - `item_objeto_resumo.xml`
+- Fragments com padronização visual (fundo, espaçamento, tipografia):
+  - `fragment_home.xml`
+  - `fragment_serie.xml`
+  - `fragment_eixo_competencia.xml`
+  - `fragment_objeto_conceito.xml`
+  - `fragment_lista_habilidade.xml`
+  - `fragment_habilidades.xml`
+
+## 7) Padronização visual aplicada (Roteiro)
 - `activity_main.xml` com `MaterialToolbar` e menu `top_app_bar_menu.xml`.
 - Ícones de menu:
   - `ic_home.xml`
@@ -182,7 +211,17 @@ Tela dividida em 2 partes:
   - `item_habilidade_simple_text.xml`
   - `item_eixo_competencia_resumo.xml`
 
-## 7) Stack adotada
+- Tokens de cor adicionados em `colors.xml` (paleta institucional + textos/superfícies).
+- Escalas em `dimens.xml` (espaçamento, tipografia e área mínima de toque).
+- Estilos reutilizáveis em `styles.xml`:
+  - `AppTitleText`
+  - `SectionTitleText`
+  - `BodyText`
+  - `SecondaryText`
+  - `CardContainer`
+- Manutenção das cores já definidas dos botões EI, EF e EM.
+
+## 8) Stack adotada
 
 - Kotlin (Android)
 - ViewBinding
@@ -191,9 +230,10 @@ Tela dividida em 2 partes:
 - Room + KSP
 - Kotlin Coroutines
 - RecyclerView + SwipeRefreshLayout
-- Google Play Services Auth (`play-services-auth`)
+- Google Play Services Auth (`play-services-auth`) quando habilitado
+- Material Components (`MaterialToolbar`, `MaterialCardView`)
 
-## 8) Assets locais
+## 9) Assets locais
 
 Em `app/src/main/assets`:
 - `bncc_computacao.db`
