@@ -16,25 +16,36 @@
             style="@style/AppTitleText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/mec_blue"
             android:gravity="center"
             android:paddingVertical="@dimen/space_8"
             android:text="Prática Pedagógica"
-            android:textColor="@color/white"
-            android:background="@color/mec_blue" />
+            android:textColor="@color/white" />
+
+        <com.google.android.material.card.MaterialCardView
+            style="@style/CardContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_12">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_12"
-            android:background="@color/white"
             android:orientation="vertical"
             android:padding="@dimen/space_16">
+
+            <TextView
+                style="@style/SectionTitleText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Dados da habilidade" />
 
             <TextView
                 android:id="@+id/habilidadeTv"
                 style="@style/BodyText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_12"
                 android:text="Habilidade: -"
                 android:textStyle="bold" />
 
@@ -55,24 +66,25 @@
                 android:text="Série: -" />
 
             <TextView
-                style="@style/BodyText"
+                style="@style/SecondaryText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_12"
-                android:text="Tempo:" />
+                android:text="Tempo" />
 
             <Spinner
                 android:id="@+id/tempoSpinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_8" />
+                android:layout_marginTop="@dimen/space_8"
+                android:minHeight="@dimen/button_min_height" />
 
             <TextView
-                style="@style/BodyText"
+                style="@style/SecondaryText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_12"
-                android:text="Tipo:" />
+                android:text="Tipo" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -82,59 +94,69 @@
 
                 <CheckBox
                     android:id="@+id/desplugadaCb"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:checked="true"
+                    android:minHeight="@dimen/button_min_height"
                     android:text="Desplugada" />
 
                 <CheckBox
                     android:id="@+id/plugadaCb"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/space_16"
-                    android:text="Plugada" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_12"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/gerarComIaBt"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:minHeight="@dimen/button_min_height"
-                    android:text="Gerar"
-                    android:textAllCaps="true" />
-
-<!--                <Button-->
-<!--                    android:id="@+id/gerarSemIaBt"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginStart="@dimen/space_12"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:minHeight="@dimen/button_min_height"-->
-<!--                    android:text="Criar sem IA"-->
-<!--                    android:textAllCaps="true" />-->
+                    android:text="Plugada" />
             </LinearLayout>
+
+            <Button
+                android:id="@+id/gerarComIaBt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_12"
+                android:minHeight="@dimen/button_min_height"
+                android:text="Gerar"
+                android:textAllCaps="true" />
+
+            <!--                <Button-->
+            <!--                    android:id="@+id/gerarSemIaBt"-->
+            <!--                    android:layout_width="0dp"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:layout_marginStart="@dimen/space_12"-->
+            <!--                    android:layout_weight="1"-->
+            <!--                    android:minHeight="@dimen/button_min_height"-->
+            <!--                    android:text="Criar sem IA"-->
+            <!--                    android:textAllCaps="true" />-->
         </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            style="@style/CardContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_12">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_12"
-            android:background="@color/white"
             android:orientation="vertical"
             android:padding="@dimen/space_16">
+
+            <TextView
+                style="@style/SectionTitleText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Plano da prática" />
 
             <EditText
                 android:id="@+id/tituloPraticaEt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Título da prática" />
+                android:layout_marginTop="@dimen/space_12"
+                android:hint="Título da prática"
+                android:minHeight="@dimen/button_min_height" />
 
             <EditText
                 android:id="@+id/objetivoEt"
@@ -150,43 +172,50 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_12"
-                android:hint="Materiais" />
+                android:hint="Materiais"
+                android:minHeight="@dimen/button_min_height" />
 
             <EditText
                 android:id="@+id/introducaoEt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_12"
-                android:hint="Introdução" />
+                android:hint="Introdução"
+                android:minHeight="@dimen/button_min_height" />
 
             <EditText
                 android:id="@+id/desenvolvimentoEt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_12"
-                android:hint="Desenvolvimento" />
+                android:hint="Desenvolvimento"
+                android:minHeight="@dimen/button_min_height" />
 
             <EditText
                 android:id="@+id/praticaEt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_12"
-                android:hint="Prática" />
+                android:hint="Atividade Prática"
+                android:minHeight="@dimen/button_min_height" />
 
             <EditText
                 android:id="@+id/encerramentoEt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_12"
-                android:hint="Encerramento" />
+                android:hint="Encerramento"
+                android:minHeight="@dimen/button_min_height" />
 
             <EditText
                 android:id="@+id/statusEt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_12"
-                android:hint="Status" />
+                android:hint="Status"
+                android:minHeight="@dimen/button_min_height" />
         </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
         <LinearLayout
             android:layout_width="match_parent"

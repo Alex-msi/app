@@ -2,7 +2,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/surface_light">
+    android:background="@color/surface_light"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -10,17 +11,35 @@
         android:orientation="vertical"
         android:padding="@dimen/space_16">
 
+        <TextView
+            style="@style/AppTitleText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/space_12"
+            android:text="Área autenticada" />
+
+        <com.google.android.material.card.MaterialCardView
+            style="@style/CardContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
             android:orientation="vertical"
             android:padding="@dimen/space_16">
 
             <TextView
-                style="@style/BodyText"
+                style="@style/SectionTitleText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="Dados do usuário" />
+
+            <TextView
+                style="@style/SecondaryText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_12"
                 android:text="ID (somente visualização)" />
 
             <TextView
@@ -36,10 +55,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_12"
-                android:hint="Nome" />
+                android:hint="Nome"
+                android:minHeight="@dimen/button_min_height" />
 
             <TextView
-                style="@style/BodyText"
+                style="@style/SecondaryText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_12"
@@ -58,15 +78,46 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_12"
-                android:hint="Tipo" />
+                android:hint="Tipo"
+                android:minHeight="@dimen/button_min_height" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_12"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/alterarBt"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:minHeight="@dimen/button_min_height"
+                    android:text="Alterar" />
+
+                <Button
+                    android:id="@+id/salvarBt"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_12"
+                    android:layout_weight="1"
+                    android:enabled="false"
+                    android:minHeight="@dimen/button_min_height"
+                    android:text="Salvar" />
+            </LinearLayout>
 
         </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            style="@style/CardContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_12">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_12"
-            android:background="@color/white"
             android:orientation="vertical"
             android:padding="@dimen/space_16">
 
@@ -82,7 +133,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_12"
                 android:nestedScrollingEnabled="false" />
+
         </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
     </LinearLayout>
 </ScrollView>

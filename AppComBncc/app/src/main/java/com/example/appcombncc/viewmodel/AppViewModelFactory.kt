@@ -9,3 +9,5 @@ class AppViewModelFactory<VM : ViewModel>(
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T = provider() as T
 }
+
+

@@ -5,7 +5,9 @@ import com.example.appcombncc.data.database.AppComBnccDatabase
 import com.example.appcombncc.repository.EtapaRepository
 import com.example.appcombncc.repository.EixoCompetenciaRepository
 import com.example.appcombncc.repository.HabilidadeRepository
+import com.example.appcombncc.repository.SessionRepository
 import com.example.appcombncc.repository.SerieRepository
+import com.example.appcombncc.repository.UsuarioRepository
 
 class AppComBnccApplication : Application() {
     val database by lazy { AppComBnccDatabase.getDatabase(this) }
@@ -16,4 +18,6 @@ class AppComBnccApplication : Application() {
     }
     val habilidadeRepository by lazy { HabilidadeRepository(database.habilidadeDao()) }
     val serieRepository by lazy { SerieRepository(database.serieDao()) }
+    val usuarioRepository by lazy { UsuarioRepository(database.usuarioDao()) }
+    fun sessionRepository(sessionManager: com.example.appcombncc.util.SessionManager) = SessionRepository(sessionManager)
 }
