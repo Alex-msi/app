@@ -1,6 +1,6 @@
 # Mapa técnico atual — AppComBncc
 
-Este documento registra o estado atual do projeto `AppComBncc`, incluindo arquitetura, navegação, política visual e os fluxos implementados no app.
+Este documento registra o estado atual do projeto `AppComBncc`, incluindo arquitetura, persistência, autenticação/sessão, navegação e política visual implementadas no app.
 
 ## 1) Estrutura geral (módulo app)
 
@@ -27,19 +27,22 @@ app/src/main/java/com/example/appcombncc
 - `AppComBnccApplication.kt`
   - Classe `Application` do projeto.
   - Inicializa o Room e expõe repositórios principais.
+  - Fornece `usuarioRepository` e fábrica de `sessionRepository(...)`.
 
 ### Data
 
 #### `data/entity`
 Entidades persistidas no Room:
 - `EtapaEntity`
-- `SerieEntity` (quando presente no mapeamento atual do banco)
+- `SerieEntity
 - `EixoEntity`
 - `CompetenciaEspecificaEntity`
 - `HabilidadeEntity`
-- `ObjetoConhecimentoEntity` (quando presente no mapeamento atual do banco)
-- `ConceitoHabilidadeEntity` (quando presente no mapeamento atual do banco)
+- `ObjetoConhecimentoEntity`
+- `ConceitoHabilidadeEntity`
 - `SerieEixoEntity`
+- `UsuarioEntity`
+- `PraticaEntity`
 
 #### `data/dao`
 Interfaces de acesso ao banco de dados:
@@ -48,11 +51,18 @@ Interfaces de acesso ao banco de dados:
 - `EixoDao`
 - `CompetenciaDao`
 - `HabilidadeDao`
+- `UsuarioDao`
+- busca por email (`getByEmail`, `getByEmailSnapshot`)
+- atualização de nome (`atualizarNomeById`)
+- `PraticaDao`
 
 #### `data/database`
 - `AppComBnccDatabase`
   - Classe principal do Room Database.
   - Criação a partir do asset `bncc_computacao.db`.
+  - `version = 2`.
+  - Migração explícita `MIGRATION_1_2` para criar `usuario` e `pratica` sem destruição de dados.
+  - **Sem** `fallbackToDestructiveMigration`.
 
 #### `data/model`
 Modelos auxiliares para projeções e UI:
@@ -61,14 +71,18 @@ Modelos auxiliares para projeções e UI:
 - `CompetenciaResumoItem`
 - `CompetenciaHabilidadeItem`
 - `HabilidadeListaItem`
-- `PraticaUsuarioItem` (manter quando utilizado em evoluções)
+- `PraticaUsuarioItem` 
 
 ### Repository
-Camada de orquestração de dados entre DAO e ViewModel:
+Camada de orquestração de dados entre DAO/Session e ViewModel:
 - `EtapaRepository`
 - `SerieRepository`
 - `EixoCompetenciaRepository`
 - `HabilidadeRepository`
+- `UsuarioRepository`
+  - sincroniza usuário no primeiro login e logins subsequentes
+- `SessionRepository`
+  - encapsula persistência de sessão local
 
 ### ViewModel
 Estado e regras de apresentação por fluxo:
@@ -76,14 +90,20 @@ Estado e regras de apresentação por fluxo:
 - `SerieViewModel`
 - `EixoCompetenciaViewModel`
 - `HabilidadesViewModel`
+-  `AuthViewModel`
+- processa sucesso/falha do login
+- sincroniza usuário com/sem navegação
+- `UsuarioViewModel`
 
 Fábricas e suporte:
 - `HomeViewModelFactory`
 - `SerieViewModelFactory`
 - `EixoCompetenciaViewModelFactory`
 - `HabilidadesViewModelFactory`
-- `AppViewModelFactory` (manter quando utilizado no projeto)
-- `ViewModelHelpers` (manter quando utilizado no projeto)
+- `AuthViewModelFactory`
+- `UsuarioViewModelFactory`
+- `AppViewModelFactory`
+- `ViewModelHelpers`
 
 ### UI
 
@@ -91,8 +111,9 @@ Fábricas e suporte:
 - `MainActivity`
   - Host da navegação (`NavHostFragment`).
   - Integração da `MaterialToolbar` com `NavController`.
-  - Suporte a `navigateUp()` na toolbar para retorno entre telas.
+  - Suporte a `navigateUp()` na toolbar.
   - Home como destino de topo.
+  - Integra login Google com `AuthViewModel`.
 
 #### `ui/fragment`
 Telas existentes:
@@ -102,8 +123,8 @@ Telas existentes:
 - `ObjetoConceitoFragment`
 - `ListaHabilidadeFragment`
 - `HabilidadesFragment`
-- `PraticaFragment` (manter quando disponível no fluxo do projeto)
-- `ListaAutenticadaFragment` (manter quando disponível no fluxo do projeto)
+- `PraticaFragment` 
+- `ListaAutenticadaFragment` 
 
 #### `ui` (adapters)
 Adapters de RecyclerView e listas:
@@ -112,23 +133,22 @@ Adapters de RecyclerView e listas:
 - `CompetenciaResumoAdapter`
 - `ObjetoResumoAdapter`
 - `HabilidadeListaAdapter`
-- `PraticaUsuarioAdapter` (manter quando presente)
+- `PraticaUsuarioAdapter` 
 
 ### Util
-- `HabilidadeFiltroUtils` (manter quando presente)
-- `PdfDownloadUtil` (quando utilizado) / lógica de download no `HomeFragment`
+- `HabilidadeFiltroUtils`
+- `PdfDownloadUtil` 
 
 - `SessionManager`
   - Persistência local de sessão em `SharedPreferences`.
-  - Campos atuais de sessão:
+  - Campos de sessão:
     - `autenticado`
     - `googleUid`
     - `email`
     - `nome`
     - `ultimoLoginEm`
     - `tokenValidoAte` (opcional)
-  - Política de validade de sessão local + expiração por token (quando informado).
-
+          
 ## 3) Navegação implementada
 
 Fluxo principal registrado no `nav_graph`:
@@ -139,45 +159,48 @@ Fluxo principal registrado no `nav_graph`:
 4. `objetoConceitoFragment`
 5. `listaHabilidadeFragment`
 6. `habilidadesFragment`
-7. `praticaFragment` (quando aplicável)
+7. `praticaFragment` 
 
 Fluxo autenticado:
-- `listaAutenticadaFragment` (quando aplicável na versão com autenticação).
-
-### Observações de fluxo implementadas neste ciclo
-- Fluxo **EM**:
-  - Em `EixoCompetenciaFragment`, exibição de competências com total de habilidades.
-  - Item de competência com quebra de linha no total (melhor legibilidade).
-  - Ao clicar em competência, navega para `ListaHabilidadeFragment` com contexto da competência.
-- Em `ListaHabilidadeFragment` (EM):
-  - título contextual: **“Lista de Habilidades da Competência:”**;
-  - label **“Competência”** acima da descrição selecionada;
-  - listagem de habilidades filtradas pela competência selecionada.
+`listaAutenticadaFragment`
 
 ## 4) Autenticação e sessão (estado atual)
 
 ### Autenticação
-- Login Google via `play-services-auth` (quando esta feature está habilitada na branch/versão).
-- Resultado tratado em `MainActivity` com feedback por `Toast`.
+- Login Google via `play-services-auth`.
+- Resultado tratado no fluxo de `AuthViewModel` e refletido na UI por `AuthResult`.
 
 ### Sessão local
-- Sessão salva localmente após autenticação bem-sucedida e também ao detectar conta já autenticada.
+- Sessão salva localmente após autenticação.
 - Na inicialização:
-  - sessão válida: mantém usuário autenticado, sem redirecionamento automático (Home continua sendo entrada);
+  - sessão válida: sincroniza usuário no banco sem navegação automática;
   - sessão inválida/revogada: limpa sessão local e mantém funcionalidades públicas.
+ 
+### Persistência de usuário (`usuario`)
+- No primeiro login, cria usuário com:
+  - `nome = null`
+  - `tipo = professor`
+  - `autenticado = 1`
+- Nos logins seguintes:
+  - atualiza `google_uid`, `autenticado`, `ultimo_login_em`, `atualizado_em`
+  - preserva `nome` já salvo pelo usuário.
 
 ## 5) Tela autenticada (`ListaAutenticadaFragment`)
 
 Tela dividida em 2 partes:
 1. Dados do usuário:
    - ID (somente visualização)
-   - Nome
-   - Email (proveniente do login Google)
-   - Tipo
-2. Lista de práticas do usuário (`RecyclerView`) contendo:
-   - título da prática
-   - código da habilidade
-   - série/etapa
+   - Nome (editável sob ação de botão)
+   - Email
+   - Tipo (somente leitura)
+   - Botões:
+     - `Alterar` (habilita edição do nome)
+     - `Salvar` (persiste nome e volta para leitura)
+2. Lista de práticas do usuário (`RecyclerView`) — atualmente com dados mock.
+
+Comportamentos de lifecycle aplicados:
+- Coleta de dados com `viewLifecycleOwner.repeatOnLifecycle`.
+- Proteção contra acesso a binding após `onDestroyView`.
 
 ## 6) Recursos visuais e layouts relevantes
 
@@ -186,6 +209,14 @@ Tela dividida em 2 partes:
   - busca de habilidade (`buscaHabilidadeEt` + `procurarTv`);
   - botão `Favoritos`;
   - botão `PDF Computação Complemento a BNCC`.
+  - Home com ações:
+  - busca de habilidade (`buscaHabilidadeEt` + `procurarTv`)
+  - botão `Favoritos`
+  - botão `PDF Computação Complemento a BNCC`
+- Tela autenticada e prática com cards e padronização visual:
+  - `fragment_lista_autenticada.xml`
+  - `fragment_pratica.xml`
+  - `item_pratica_usuario.xml`
 - Itens de lista padronizados com cards:
   - `item_simple_text.xml`
   - `item_eixo_resumo.xml`
@@ -211,8 +242,8 @@ Tela dividida em 2 partes:
   - `item_habilidade_simple_text.xml`
   - `item_eixo_competencia_resumo.xml`
 
-- Tokens de cor adicionados em `colors.xml` (paleta institucional + textos/superfícies).
-- Escalas em `dimens.xml` (espaçamento, tipografia e área mínima de toque).
+- Tokens de cor em `colors.xml`.
+- Escalas em `dimens.xml`.
 - Estilos reutilizáveis em `styles.xml`:
   - `AppTitleText`
   - `SectionTitleText`
@@ -228,7 +259,7 @@ Tela dividida em 2 partes:
 - AndroidX Navigation
 - AndroidX Lifecycle/ViewModel
 - Room + KSP
-- Kotlin Coroutines
+- Kotlin Coroutines / Flow
 - RecyclerView + SwipeRefreshLayout
 - Google Play Services Auth (`play-services-auth`) quando habilitado
 - Material Components (`MaterialToolbar`, `MaterialCardView`)
